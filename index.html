@@ -89,7 +89,7 @@
               <input 
                 type="text" 
                 id="diseaseSearchInput"
-                placeholder="질병코드(예: C73, I63, I67.1, M05, M51, D25) 또는 진단명 입력..."
+                placeholder="질병코드(예: C73, I63, C16, C34, C50, I60, N18) 또는 진단명 입력..."
                 class="w-full pl-12 pr-28 py-4 bg-white text-slate-900 rounded-xl text-base sm:text-lg font-medium shadow-2xl focus:outline-none focus:ring-4 focus:ring-sky-400/50 transition placeholder:text-slate-400"
                 autocomplete="off"
                 onkeyup="handleSearchInput(event)"
@@ -110,13 +110,18 @@
           <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
             <span class="text-slate-400 font-medium mr-1"><i class="fa-solid fa-bolt text-amber-400 mr-1"></i>빈출 코드 바로가기:</span>
             <button onclick="quickSelect('C73')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">C73 갑상선암</button>
+            <button onclick="quickSelect('C16')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">C16 위암</button>
+            <button onclick="quickSelect('C34')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">C34 폐암</button>
+            <button onclick="quickSelect('C50')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">C50 유방암</button>
             <button onclick="quickSelect('I63')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">I63 뇌경색</button>
+            <button onclick="quickSelect('I60')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">I60 지주막하출혈</button>
             <button onclick="quickSelect('I67.1')" class="px-2.5 py-1 rounded-md bg-sky-900/70 hover:bg-sky-800 text-sky-200 border border-sky-600/60 transition">I67.1 뇌동맥류</button>
             <button onclick="quickSelect('I20')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">I20 협심증</button>
             <button onclick="quickSelect('I21')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">I21 심근경색</button>
             <button onclick="quickSelect('M51')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">M51 디스크</button>
             <button onclick="quickSelect('K63.5')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">K63.5 대장용종</button>
             <button onclick="quickSelect('D25')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">D25 자궁근종</button>
+            <button onclick="quickSelect('N18')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">N18 만성신부전</button>
             <button onclick="quickSelect('H25')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">H25 백내장</button>
             <button onclick="quickSelect('K60')" class="px-2.5 py-1 rounded-md bg-rose-900/60 hover:bg-rose-800 text-rose-200 border border-rose-700/50 transition">K60 치핵</button>
             <button onclick="quickSelect('S52')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">S52 손목골절</button>
@@ -213,18 +218,30 @@
     window.currentDisease = null;
     var currentDisease = null;
 
-    // 통계청 KCD 전체 마스터 데이터 (HTML 내장 방식)
+    // 통계청 KCD 전체 마스터 데이터
     const KCD_MASTER_LIST = [
-      // 여기에 kcd.json 내용을 통째로 붙여넣으세요 (예시 몇 개 포함)
       {"c": "A00", "n": "콜레라"},
       {"c": "A01", "n": "장티푸스 및 파라티푸스"},
+      {"c": "C16", "n": "위의 악성 신생물 (위암)"},
+      {"c": "C18", "n": "결장의 악성 신생물 (대장암)"},
+      {"c": "C34", "n": "기관지 및 폐의 악성 신생물 (폐암)"},
+      {"c": "C50", "n": "유방의 악성 신생물 (유방암)"},
+      {"c": "C61", "n": "전립선의 악성 신생물 (전립선암)"},
       {"c": "C73", "n": "갑상선의 악성 신생물"},
+      {"c": "I60", "n": "지주막하 출혈"},
+      {"c": "I61", "n": "뇌내출혈"},
       {"c": "I63", "n": "뇌경색증"},
+      {"c": "I64", "n": "상세불명의 뇌졸중"},
       {"c": "I67.1", "n": "파열되지 않은 대뇌동맥류"},
       {"c": "I69", "n": "뇌혈관질환의 후유증"},
+      {"c": "I71", "n": "대동맥류 및 박리"},
       {"c": "M05", "n": "혈청양성 류마티스 관절염"},
       {"c": "M51", "n": "기타 추간판 장애"},
-      {"c": "S52", "n": "아래팔의 골절"}
+      {"c": "N18", "n": "만성 신장병 (만성신부전)"},
+      {"c": "K74", "n": "간의 섬유증 및 간경화"},
+      {"c": "S52", "n": "아래팔의 골절"},
+      {"c": "S82", "n": "아래랫다리 골절 (발목골절 포함)"},
+      {"c": "S83", "n": "무릎의 관절십자인대 파열"}
     ];
 
     // 1. 다빈도 상세 데이터베이스
@@ -282,6 +299,141 @@
         ]
       },
       {
+        code: "C16",
+        name: "위의 악성 신생물 (위암)",
+        category: "암/종양",
+        subCategory: "소화기계 악성신생물",
+        disputeLevel: "중간 (내시경적 절제술 EMR/ESD 암수술비 분쟁)",
+        diagnosis: {
+          available: true,
+          badgeText: "일반암 진단비 100% 지급 대상",
+          details: [
+            "조직검사 결과 악성종양 확진 시 일반암 진단비 100% 지급.",
+            "점막내암(Intramucosal carcinoma)인 경우 조기위암으로 일반암 전액 지급 원칙."
+          ]
+        },
+        surgery: {
+          available: true,
+          badgeText: "암수술비 + 질병수술비 + 1~5종(3~5종)",
+          details: [
+            "복강경/개복 위부분절제술 또는 전절제술: [5종 수술비] 및 암수술비 지급.",
+            "내시경 점막하 박리술(ESD): [3종 수술비] 및 암수술비 지급."
+          ]
+        },
+        hospitalDaily: {
+          available: true,
+          badgeText: "암입원일당 + 질병입원일당",
+          details: ["수술 및 항암 치료 목적의 입원 기간 암직접치료 입원일당 정상 지급."]
+        },
+        indemnity: {
+          available: true,
+          status: "정상 보장",
+          generations: {
+            gen1: "1세대: 의료비 100% 보장.",
+            gen2: "2세대: 80~90% 보장.",
+            gen3: "3세대: 급여 90%, 비급여 80% 보장.",
+            gen4: "4세대: 급여 80%, 비급여 70% 보장."
+          },
+          exclusions: ["건강검진 위내시경 비용 자체는 면책이나 조직검사 및 용종절제 비용은 실손 처리."]
+        },
+        claimDocs: [
+          { name: "진단서", desc: "C16 코드 기재", required: true },
+          { name: "조직병리검사 결과지", desc: "악성신생물 확정", required: true },
+          { name: "수술확인서 또는 입퇴원확인서", desc: "위 절제술 또는 내시경 시술 명시", required: true },
+          { name: "진료비 영수증 & 세부내역서", desc: "병원 수납 정산서", required: true }
+        ]
+      },
+      {
+        code: "C34",
+        name: "기관지 및 폐의 악성 신생물 (폐암)",
+        category: "암/종양",
+        subCategory: "호흡기계 악성신생물",
+        disputeLevel: "높음 (표적항암제 및 면역항암제 비급여 심사 분쟁)",
+        diagnosis: {
+          available: true,
+          badgeText: "일반암 진단비 100% 지급 대상",
+          details: [
+            "조직병리검사상 소세포폐암 또는 비소세포폐암 확진 시 일반암 진단비 100% 지급.",
+            "고액암 특약 가입 시 고액암 진단비 추가 수령 가능."
+          ]
+        },
+        surgery: {
+          available: true,
+          badgeText: "암수술비 + 질병수술비 + 1~5종(5종)",
+          details: [
+            "흉강경 또는 개흉 폐엽절제술: [5종 수술비] 최고액 지급.",
+            "표적항암약물허가치료비 및 양성자방사선치료 특약 매칭."
+          ]
+        },
+        hospitalDaily: {
+          available: true,
+          badgeText: "암입원일당 + 중환자실일당",
+          details: ["항암 방사선 치료 및 수술 후 입원 시 암직접치료 입원일당 전액 지급."]
+        },
+        indemnity: {
+          available: true,
+          status: "정상 보장 (고가 비급여 항암제 주의)",
+          generations: {
+            gen1: "1세대: 비급여 항암제 100% 보장.",
+            gen2: "2세대: 80~90% 보장.",
+            gen3: "3세대: 급여 90%, 비급여 80% 보장.",
+            gen4: "4세대: 급여 80%, 비급여 70% 보장."
+          },
+          exclusions: ["식약처 허가 범위를 초과하는 오프라벨(Off-label) 비급여 항암 치료비 부지급 가능성."]
+        },
+        claimDocs: [
+          { name: "진단서", desc: "C34 코드 기재", required: true },
+          { name: "조직병리검사 결과지", desc: "폐암 확진 결과", required: true },
+          { name: "항암치료/방사선치료 확인서", desc: "치료 차수 및 내역", required: true },
+          { name: "진료비 영수증 & 세부내역서", desc: "약제비 및 치료비 명세", required: true }
+        ]
+      },
+      {
+        code: "C50",
+        name: "유방의 악성 신생물 (유방암)",
+        category: "암/종양",
+        subCategory: "여성특정 악성신생물",
+        disputeLevel: "높음 (소액암 분류 역사 및 재건수술 실손 분쟁)",
+        diagnosis: {
+          available: true,
+          badgeText: "일반암 진단비 (일부 상품 소액암 분리 주의)",
+          details: [
+            "대부분 일반암 진단비로 100% 지급되나, 일부 과거 상품은 남녀생식기암으로 분류되어 소액 지급될 수 있음.",
+            "상피내암(D05) 동반 시 제자리암 진단비 별도 적용."
+          ]
+        },
+        surgery: {
+          available: true,
+          badgeText: "암수술비 + 질병수술비 + 1~5종(3~4종)",
+          details: [
+            "유방 부분절제술(럼펙토미) 또는 전절제술: [3종/4종 수술비] 지급.",
+            "유방 재건술 시행 시 성형 목적 여부에 따른 실손 및 수술비 심사."
+          ]
+        },
+        hospitalDaily: {
+          available: true,
+          badgeText: "암입원일당",
+          details: ["수술 후 회복 및 항암 호르몬 치료 병행 시 입원일당 지급."]
+        },
+        indemnity: {
+          available: true,
+          status: "정상 보장 (유방 재건술 보장 여부 확인)",
+          generations: {
+            gen1: "1세대: 재건수술 의료비 100% 보장.",
+            gen2: "2세대: 80~90% 보장.",
+            gen3: "3세대: 급여 90%, 비급여 80% 보장.",
+            gen4: "4세대: 급여 80%, 비급여 70% 보장."
+          },
+          exclusions: ["미용 목적의 반대측 대칭성 유방성형술은 실손 면책."]
+        },
+        claimDocs: [
+          { name: "진단서", desc: "C50 코드 명시", required: true },
+          { name: "조직병리검사 결과지", desc: "E풍수용체, HER2 등 수치 포함", required: true },
+          { name: "수술확인서", desc: "유방 절제 및 재건술 내역", required: true },
+          { name: "진료비 영수증 & 세부내역서", desc: "수납 영수증", required: true }
+        ]
+      },
+      {
         code: "I63",
         name: "뇌경색증 (Cerebral infarction)",
         category: "뇌혈관질환",
@@ -325,6 +477,50 @@
           { name: "뇌 MRI/MRA 판독결과지", desc: "급성기 경색 소견 필수", required: true },
           { name: "초진기록지", desc: "마비, 구음장애 등 신경학적 결손 기록", required: true },
           { name: "진료비 영수증 & 세부내역서", desc: "정산 내역서", required: true }
+        ]
+      },
+      {
+        code: "I60",
+        name: "지주막하 출혈 (Subarachnoid hemorrhage)",
+        category: "뇌혈관질환",
+        subCategory: "출혈성 뇌졸중",
+        disputeLevel: "높음 (동맥류 파열 여부 및 상해 vs 질병 원인 분쟁)",
+        diagnosis: {
+          available: true,
+          badgeText: "뇌출혈 + 뇌졸중 + 뇌혈관질환 진단비 100% 지급",
+          details: [
+            "뇌출혈, 뇌졸중, 뇌혈관질환 진단비 모두 100% 중복 수령 가능한 최상위 핵심 코드.",
+            "외상성 지주막하출혈(S06.6)인 경우 상해 담보로 연계 심사."
+          ]
+        },
+        surgery: {
+          available: true,
+          badgeText: "뇌혈관수술비 + 1~5종(3종/5종)",
+          details: [
+            "뇌동맥류 파열에 따른 코일색전술(3종) 또는 개두술 클립결찰술(5종) 수술비 지급."
+          ]
+        },
+        hospitalDaily: {
+          available: true,
+          badgeText: "질병입원 + 중환자실 + 간병인지원",
+          details: ["응급 수술 후 집중치료실(중환자실) 입원 일당 및 간병인 특약 동시 적용."]
+        },
+        indemnity: {
+          available: true,
+          status: "정상 보장",
+          generations: {
+            gen1: "1세대: 전액 보장.",
+            gen2: "2세대: 80~90% 보장.",
+            gen3: "3세대: 급여 90%, 비급여 80% 보장.",
+            gen4: "4세대: 급여 80%, 비급여 70% 보장."
+          },
+          exclusions: ["발병 전 고혈압 약 복용 사실 미고지 시 계약 해지 및 삭감 분쟁 주의."]
+        },
+        claimDocs: [
+          { name: "진단서", desc: "I60 코드 명시", required: true },
+          { name: "뇌 CT / MRI / MRA 판독지", desc: "출혈 및 동맥류 파열 소견", required: true },
+          { name: "수술확인서 또는 시술기록지", desc: "색전술/결찰술 확인", required: true },
+          { name: "진료비 영수증 & 세부내역서", desc: "병원 수납 내역", required: true }
         ]
       },
       {
@@ -601,6 +797,50 @@
         ]
       },
       {
+        code: "N18",
+        name: "만성 신장병 / 만성신부전 (Chronic kidney disease)",
+        category: "비뇨기계통 질환",
+        subCategory: "신장 질환",
+        disputeLevel: "높음 (말기신부전 진단비 및 투석 치료 담보 분쟁)",
+        diagnosis: {
+          available: true,
+          badgeText: "말기신부전 진단비 또는 질병후유장해 매칭",
+          details: [
+            "사구체 filtration rate(GFR) 15ml/min 미만이 3개월 이상 지속되어 '말기신부전(N18.5)' 진단 시 말기신부전진단비 지급.",
+            "영구적 투석 치료 시 질병후유장해(3%~ 또는 80% 이상) 청구 가능."
+          ]
+        },
+        surgery: {
+          available: true,
+          badgeText: "질병수술비 + 혈관조성술 수술비",
+          details: [
+            "동정맥루 조성술(AVF) 또는 복막투석관 삽입술 시 수술비 지급."
+          ]
+        },
+        hospitalDaily: {
+          available: true,
+          badgeText: "질병입원일당 (입원 치료 시)",
+          details: ["혈액투석을 위한 입원 또는 합병증 입원 시 일당 지급."]
+        },
+        indemnity: {
+          available: true,
+          status: "정상 보장",
+          generations: {
+            gen1: "1세대: 투석 의료비 100% 보장.",
+            gen2: "2세대: 80~90% 보장.",
+            gen3: "3세대: 급여 90%, 비급여 80% 보장.",
+            gen4: "4세대: 급여 80%, 비급여 70% 보장."
+          },
+          exclusions: ["건강검진상 단순 단백뇨 소견은 투병력에 해당하지 않으나 당뇨/고혈압 기왕증 고지 누락 시 심사 지연."]
+        },
+        claimDocs: [
+          { name: "진단서", desc: "N18 코드 명시", required: true },
+          { name: "신장 기능 검사 결과지 (GFR 수치)", desc: "사구체 여과율 확인", required: true },
+          { name: "혈액투석 기록지 또는 산정특례 등록증", desc: "투석 치료 증빙", required: true },
+          { name: "진료비 영수증 & 세부내역서", desc: "수납 영수증", required: true }
+        ]
+      },
+      {
         code: "H25",
         name: "노년 백내장 (Senile cataract)",
         category: "안과질환",
@@ -719,6 +959,49 @@
           { name: "진단서", desc: "S52 코드 및 사고경위 기재", required: true },
           { name: "X-ray 판독지", desc: "골절선 확인", required: true },
           { name: "진료비 영수증 & 세부내역서", desc: "정산 영수증", required: true }
+        ]
+      },
+      {
+        code: "S83",
+        name: "무릎의 관절십자인대 파열 (Cruciate ligament rupture)",
+        category: "상해/외상",
+        subCategory: "인대 파열 및 관절 손상",
+        disputeLevel: "중간 (상해 후유장해 5%~ 청구 및 동요관절 측정)",
+        diagnosis: {
+          available: true,
+          badgeText: "상해 진단비 및 후유장해(3%~ / 5%~) 대상",
+          details: [
+            "외상으로 인한 십자인대 파열 시 상해수술비 및 6개월 후 관절 운동 제한(동요관절)에 따른 상해후유장해 보험금 청구 핵심 대상."
+          ]
+        },
+        surgery: {
+          available: true,
+          badgeText: "상해수술비 + 관절경 수술비 (1~5종)",
+          details: [
+            "관절경을 이용한 전방/후방 십자인대 재건술: 상해수술비 및 관혈/비관혈 수술비 지급."
+          ]
+        },
+        hospitalDaily: {
+          available: true,
+          badgeText: "상해입원일당",
+          details: ["수술 및 입원 치료 기간 상해입원일당 지급."]
+        },
+        indemnity: {
+          available: true,
+          status: "상해 실손 정상 보장",
+          generations: {
+            gen1: "1세대: 의료비 전액 보장.",
+            gen2: "2세대: 80~90% 보장.",
+            gen3: "3세대: 급여 90%, 비급여 80% 보장.",
+            gen4: "4세대: 급여 80%, 비급여 70% 보장."
+          },
+          exclusions: ["축구, 농구 등 격렬한 운동 중 발생한 사고이나 고의성이 없으므로 실손 정상 보장."]
+        },
+        claimDocs: [
+          { name: "진단서", desc: "S83 코드 및 사고경위 기재", required: true },
+          { name: "무릎 MRI 판독지", desc: "전방/후방 십자인대 파열 확인", required: true },
+          { name: "수술확인서", desc: "인대 재건술 시행 명시", required: true },
+          { name: "진료비 영수증 & 세부내역서", desc: "수납 영수증", required: true }
         ]
       }
     ];
