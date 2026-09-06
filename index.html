@@ -47,7 +47,7 @@
             <span class="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900">K-Insure <span class="text-sky-600">Director</span></span>
             <span class="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">2026.09 Ver</span>
           </div>
-          <p class="text-xs text-slate-500 hidden sm:block">KCD 질병사인분류 전 코드 실시간 담보 분석 & 실손면책 엔진</p>
+          <p class="text-xs text-slate-500 hidden sm:block">KCD 질병사인분류 정밀 담보 분석 & 실손면책 엔진</p>
         </div>
       </div>
 
@@ -79,7 +79,7 @@
             질병코드(KCD) 또는 진단명을 입력하세요!
           </h1>
           <p class="text-slate-300 text-sm sm:text-base mb-6 leading-relaxed">
-            모든 KCD 질병코드(A00~Z99)를 지원합니다. 진단비 100% 매칭, 1~5종/1~8종/N대 수술비 해당 여부, 입원일당, 실손 보장 및 <strong class="text-amber-400">면책 주의조항</strong>과 <strong class="text-emerald-400">청구 필수서류</strong>를 즉시 분석합니다.
+            핵심 탑재된 <strong>주요 암·뇌혈관·심장질환 및 다빈도 질병코드</strong>들을 정밀 지원합니다. 진단비 100% 매칭, 1~5종/1~8종/N대 수술비 해당 여부, 입원일당, 실손 보장 및 <strong class="text-amber-400">면책 주의조항</strong>과 <strong class="text-emerald-400">청구 필수서류</strong>를 즉시 분석합니다.
           </p>
 
           <!-- Search Input Box -->
@@ -89,7 +89,7 @@
               <input 
                 type="text" 
                 id="diseaseSearchInput"
-                placeholder="질병코드(예: C16, C34, C50, I21, I60, I63, M51) 또는 진단명 입력..."
+                placeholder="질병코드(예: C16, C34, I21, I63, I67.1, M51) 또는 진단명 입력..."
                 class="w-full pl-12 pr-28 py-4 bg-white text-slate-900 rounded-xl text-base sm:text-lg font-medium shadow-2xl focus:outline-none focus:ring-4 focus:ring-sky-400/50 transition placeholder:text-slate-400"
                 autocomplete="off"
                 onkeyup="handleSearchInput(event)"
@@ -216,9 +216,8 @@
     window.currentDisease = null;
     var currentDisease = null;
 
-    // 통계청 KCD 전체 마스터 데이터
+    // 등록된 핵심 마스터 데이터
     const KCD_MASTER_LIST = [
-      {"c": "C00-C97", "n": "악성 신생물 (암 통합 분류)"},
       {"c": "C16", "n": "위의 악성 신생물 (위암)"},
       {"c": "C18", "n": "결장의 악성 신생물 (대장암)"},
       {"c": "C20", "n": "직장의 악성 신생물"},
@@ -231,8 +230,6 @@
       {"c": "C61", "n": "전립선의 악성 신생물 (전립선암)"},
       {"c": "C64", "n": "신장의 악성 신생물 (신장암)"},
       {"c": "C73", "n": "갑상선의 악성 신생물 (갑상선암)"},
-      {"c": "C81-C96", "n": "림프 및 조혈계 악성 신생물 (백혈병/림프종)"},
-      {"c": "I00-I99", "n": "순환기계통 질환 통합"},
       {"c": "I20", "n": "협심증"},
       {"c": "I21", "n": "급성 심근경색증"},
       {"c": "I22", "n": "후속 급성 심근경색증"},
@@ -241,19 +238,19 @@
       {"c": "I50", "n": "심부전"},
       {"c": "I60", "n": "지주막하 출혈"},
       {"c": "I61", "n": "뇌내출혈"},
-      {"c": "I62", "n": "기타 비외상성 顱內(두내) 출혈"},
+      {"c": "I62", "n": "기타 비외상성 두내출혈"},
       {"c": "I63", "n": "뇌경색증"},
       {"c": "I64", "n": "상세불명의 뇌졸중"},
-      {"c": "I65", "n": "뇌경색증을 유발하지 않은 뇌전동맥의 폐쇄 및 협착"},
       {"c": "I67.1", "n": "파열되지 않은 대뇌동맥류"},
-      {"c": "I69", "n": "뇌혈관질환의 후유증"},
       {"c": "I71", "n": "대동맥류 및 박리"},
       {"c": "M51", "n": "기타 추간판 장애 (허리/목 디스크)"},
       {"c": "K63.5", "n": "결장의 폴립 (대장용종)"},
+      {"c": "H25", "n": "노년 백내장"},
+      {"c": "K60", "n": "치핵, 치열 및 치루"},
       {"c": "S52", "n": "아래팔의 골절"}
     ];
 
-    // 1. 다빈도 상세 데이터베이스 (암 및 뇌·심장 집중 보강)
+    // 1. 다빈도 상세 데이터베이스
     const DETAILED_DB = [
       {
         code: "C16",
@@ -1015,14 +1012,13 @@
       }
     ];
 
-    // 2. KCD 22개 대분류 자동 판정 룰 엔진 (DB 미등록 코드 처리)
+    // 2. KCD 대분류 자동 판정 룰 엔진 (DB 미등록 코드 처리)
     function generateKcdRuleBasedItem(rawCode, rawQuery) {
       const clean = rawCode.trim();
       const upper = clean.toUpperCase();
       let prefix = upper.charAt(0);
       let numPart = parseFloat(upper.substring(1)) || 0;
 
-      // 한글 진단명 입력 시 코드 대역 역추정 매핑
       if (!/^[A-Z]/.test(prefix)) {
         if (clean.includes("동맥류") || clean.includes("뇌혈관") || clean.includes("뇌경색") || clean.includes("뇌출혈")) {
           prefix = 'I';
@@ -1072,7 +1068,6 @@
         "치료 목적이 아닌 미용, 영양제, 단순 피로회복 목적 주사료는 실손 면책."
       ];
 
-      // 대분류 알고리즘
       if (prefix === 'C') {
         category = "악성 신생물 (암)";
         subCategory = "원발성 악성종양";
@@ -1250,7 +1245,7 @@
         item.name.toLowerCase().includes(lowerQuery)
       );
 
-      // 2. HTML 내장 KCD_MASTER_LIST 매칭 (상위 12개 제한)
+      // 2. KCD_MASTER_LIST 매칭 (상위 12개 제한)
       let kcdMatches = [];
       if (KCD_MASTER_LIST && KCD_MASTER_LIST.length > 0) {
         kcdMatches = KCD_MASTER_LIST.filter(item => 
@@ -1283,7 +1278,7 @@
                 <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-200 font-mono text-xs font-bold">${item.c}</span>
                 <span class="text-sm font-medium text-slate-700">${item.n}</span>
               </div>
-              <span class="text-[11px] text-slate-400">KCD표준</span>
+              <span class="text-[11px] text-slate-400">지원코드</span>
             </div>
           `;
         }
@@ -1291,7 +1286,7 @@
 
       html += `
         <div onclick="executeSearch()" class="p-3.5 bg-slate-50 hover:bg-sky-100 cursor-pointer text-center text-xs sm:text-sm font-bold text-sky-700 transition">
-          <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> "${query.toUpperCase()}" KCD 전체 약관 엔진으로 즉시 분석 실행
+          <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> "${query.toUpperCase()}" 룰 엔진으로 즉시 분석 실행
         </div>
       `;
 
