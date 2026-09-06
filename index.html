@@ -47,7 +47,7 @@
             <span class="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900">K-Insure <span class="text-sky-600">Director</span></span>
             <span class="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">2026.09 Ver</span>
           </div>
-          <p class="text-xs text-slate-500 hidden sm:block">KCD 질병사인분류 전 코드(A00~Z99) 실시간 담보 분석 & 실손면책 엔진</p>
+          <p class="text-xs text-slate-500 hidden sm:block">KCD 질병사인분류 전 코드 실시간 담보 분석 & 실손면책 엔진</p>
         </div>
       </div>
 
@@ -212,6 +212,20 @@
   <script>
     window.currentDisease = null;
     var currentDisease = null;
+
+    // kcd.json 파일에서 비동기로 불러온 전체 질병코드 목록
+    let KCD_MASTER_LIST = [];
+
+    async function loadKcdDatabase() {
+      try {
+        const response = await fetch('kcd.json');
+        if (response.ok) {
+          KCD_MASTER_LIST = await response.json();
+        }
+      } catch (e) {
+        console.warn("kcd.json 로드 실패 또는 파일 없음:", e);
+      }
+    }
 
     // 1. 다빈도 상세 데이터베이스
     const DETAILED_DB = [
@@ -902,16 +916,15 @@
       };
     }
 
-    // 3. 앱 초기화
+    // 초기화
     function initApp() {
       selectDiseaseByCode("C73");
     }
 
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", initApp);
-    } else {
-      setTimeout(initApp, 50);
-    }
+    document.addEventListener("DOMContentLoaded", function() {
+      loadKcdDatabase();
+      initApp();
+    });
 
     function resetToHome() {
       const searchInput = document.getElementById("diseaseSearchInput");
@@ -923,9 +936,10 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 4. 검색 입력 핸들러 (자동완성)
+    // 검색창 입력 시 자동완성 처리
     function handleSearchInput(event) {
-      const query = event.target.value.trim().toLowerCase();
+      const query = event.target.value.trim();
+      const lowerQuery = query.toLowerCase();
       const dropdown = document.getElementById("autocompleteDropdown");
       if (!dropdown) return;
 
@@ -939,24 +953,50 @@
         return;
       }
 
-      const matches = DETAILED_DB.filter(item => 
-        item.code.toLowerCase().includes(query) || 
-        item.name.toLowerCase().includes(query) ||
-        item.category.toLowerCase().includes(query)
+      // 1. 상세 DB 우선 매칭
+      const detailMatches = DETAILED_DB.filter(item => 
+        item.code.toLowerCase().includes(lowerQuery) || 
+        item.name.toLowerCase().includes(lowerQuery)
       );
 
+      // 2. kcd.json 마스터 배열 매칭 (상위 12개 제한)
+      let kcdMatches = [];
+      if (KCD_MASTER_LIST && KCD_MASTER_LIST.length > 0) {
+        kcdMatches = KCD_MASTER_LIST.filter(item => 
+          item.c.toLowerCase().includes(lowerQuery) || 
+          item.n.toLowerCase().includes(lowerQuery)
+        ).slice(0, 12);
+      }
+
       let html = "";
-      if (matches.length > 0) {
-        html = matches.map(item => `
-          <div onclick="selectDiseaseByCode('${item.code}')" class="p-3.5 hover:bg-sky-50 border-b border-slate-100 cursor-pointer flex items-center justify-between transition">
-            <div class="flex items-center gap-3">
-              <span class="px-2.5 py-1 rounded bg-slate-900 text-sky-400 font-mono text-xs font-bold">${item.code}</span>
+
+      detailMatches.forEach(item => {
+        html += `
+          <div onclick="selectDiseaseByCode('${item.code}')" class="p-3 hover:bg-sky-50 border-b border-slate-100 cursor-pointer flex items-center justify-between transition">
+            <div class="flex items-center gap-2.5">
+              <span class="px-2 py-0.5 rounded bg-sky-950 text-sky-400 font-mono text-xs font-bold">${item.code}</span>
               <span class="text-sm font-semibold text-slate-800">${item.name}</span>
             </div>
-            <span class="text-xs text-slate-400">${item.category}</span>
+            <span class="text-[11px] font-bold text-sky-600 bg-sky-100 px-2 py-0.5 rounded">정밀분석</span>
           </div>
-        `).join("");
-      }
+        `;
+      });
+
+      const existingCodes = new Set(detailMatches.map(d => d.code.toLowerCase()));
+      kcdMatches.forEach(item => {
+        if (!existingCodes.has(item.c.toLowerCase())) {
+          const safeName = item.n.replace(/'/g, "\\'");
+          html += `
+            <div onclick="selectKcdMaster('${item.c}', '${safeName}')" class="p-3 hover:bg-slate-100 border-b border-slate-100 cursor-pointer flex items-center justify-between transition">
+              <div class="flex items-center gap-2.5">
+                <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-200 font-mono text-xs font-bold">${item.c}</span>
+                <span class="text-sm font-medium text-slate-700">${item.n}</span>
+              </div>
+              <span class="text-[11px] text-slate-400">KCD표준</span>
+            </div>
+          `;
+        }
+      });
 
       html += `
         <div onclick="executeSearch()" class="p-3.5 bg-slate-50 hover:bg-sky-100 cursor-pointer text-center text-xs sm:text-sm font-bold text-sky-700 transition">
@@ -974,7 +1014,27 @@
       selectDiseaseByCode(code);
     }
 
-    // 5. 검색 실행 (DB 조회 -> 없으면 KCD 룰 엔진 즉시 분석)
+    // kcd.json 항목 클릭 시 실행
+    function selectKcdMaster(code, name) {
+      const searchInput = document.getElementById("diseaseSearchInput");
+      if (searchInput) searchInput.value = `${code} - ${name}`;
+      const dropdown = document.getElementById("autocompleteDropdown");
+      if (dropdown) dropdown.classList.add("hidden");
+
+      const detail = DETAILED_DB.find(d => d.code.toLowerCase() === code.toLowerCase());
+      const item = detail || generateKcdRuleBasedItem(code, name);
+
+      window.currentDisease = item;
+      currentDisease = item;
+      renderDiseaseDetails(item);
+
+      const detailView = document.getElementById("diseaseDetailView");
+      if (detailView) {
+        detailView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // 검색 실행
     function executeSearch() {
       const searchInput = document.getElementById("diseaseSearchInput");
       if (!searchInput) return;
@@ -987,25 +1047,40 @@
         return;
       }
 
-      // 1) 상세 DB 검색
+      const clean = query.split(" - ")[0].trim().toLowerCase();
+
+      // 1. 상세 DB 매칭
       const exactMatch = DETAILED_DB.find(item => 
-        item.code.toLowerCase() === query.toLowerCase() || 
-        item.name.toLowerCase().includes(query.toLowerCase())
+        item.code.toLowerCase() === clean || 
+        item.name.toLowerCase().includes(clean)
       );
 
       if (exactMatch) {
         selectDiseaseByCode(exactMatch.code);
-      } else {
-        // 2) 미등록 코드는 전체 KCD 룰 엔진으로 즉각 연산
-        const generated = generateKcdRuleBasedItem(query, query);
-        window.currentDisease = generated;
-        currentDisease = generated;
-        renderDiseaseDetails(generated);
+        return;
+      }
 
-        const detailView = document.getElementById("diseaseDetailView");
-        if (detailView) {
-          detailView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // 2. kcd.json 마스터 매칭
+      if (KCD_MASTER_LIST && KCD_MASTER_LIST.length > 0) {
+        const kcdMatch = KCD_MASTER_LIST.find(item => 
+          item.c.toLowerCase() === clean || 
+          item.n.toLowerCase().includes(clean)
+        );
+        if (kcdMatch) {
+          selectKcdMaster(kcdMatch.c, kcdMatch.n);
+          return;
         }
+      }
+
+      // 3. 미등록 질환 룰 엔진 연산
+      const generated = generateKcdRuleBasedItem(query, query);
+      window.currentDisease = generated;
+      currentDisease = generated;
+      renderDiseaseDetails(generated);
+
+      const detailView = document.getElementById("diseaseDetailView");
+      if (detailView) {
+        detailView.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
 
@@ -1031,7 +1106,7 @@
       }
     }
 
-    // 6. 결과 렌더링 함수
+    // 결과 렌더링
     function renderDiseaseDetails(item) {
       const emptyState = document.getElementById("emptyState");
       if (emptyState) emptyState.classList.add("hidden");
@@ -1041,7 +1116,7 @@
       container.classList.remove("hidden");
 
       container.innerHTML = `
-        <!-- Disease Header Card -->
+        <!-- 질환 헤더 카드 -->
         <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-5">
             <div>
@@ -1065,7 +1140,7 @@
             </div>
           </div>
 
-          <!-- Summary Matrix Pills -->
+          <!-- 요약 매트릭스 -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5">
             <div class="p-3.5 rounded-xl border ${item.diagnosis.available ? 'bg-emerald-50/70 border-emerald-200 text-emerald-900' : 'bg-slate-50 border-slate-200 text-slate-500'}">
               <div class="text-xs font-semibold text-slate-500 mb-1 flex items-center justify-between">
@@ -1101,10 +1176,10 @@
           </div>
         </div>
 
-        <!-- 4 Essential Coverage Breakdown Cards (Grid) -->
+        <!-- 4대 담보 상세 그리드 -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-          <!-- 1. 진단비 분석 -->
+          <!-- 1. 진단비 -->
           <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between mb-4">
@@ -1133,7 +1208,7 @@
             </div>
           </div>
 
-          <!-- 2. 수술비 분석 -->
+          <!-- 2. 수술비 -->
           <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between mb-4">
@@ -1191,7 +1266,7 @@
             </div>
           </div>
 
-          <!-- 4. 실손의료비 & 세대별 비교 -->
+          <!-- 4. 실손의료비 세대별 비교 -->
           <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between mb-4">
