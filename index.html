@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K-Insure Master | 대한민국 No.1 보험디렉터 질병코드 보장분석 솔루션</title>
-  <!-- Tailwind CSS CDN -->
+  <title>K-Insure Director | 대한민국 No.1 보험 질병코드 보장분석 솔루션</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons for Insurance & Medical UI -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
     tailwind.config = {
@@ -20,14 +18,6 @@
               600: '#0369a1',
               700: '#075985',
               900: '#0c4a6e',
-            },
-            insure: {
-              navy: '#0f172a',
-              card: '#1e293b',
-              accent: '#38bdf8',
-              gold: '#f59e0b',
-              emerald: '#10b981',
-              rose: '#f43f5e'
             }
           }
         }
@@ -36,33 +26,11 @@
   </script>
   <style>
     @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-    * {
-      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-    }
-    /* Custom Scrollbars */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #f1f5f9;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 9999px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
-    .badge-glow-green {
-      box-shadow: 0 0 12px rgba(16, 185, 129, 0.35);
-    }
-    .badge-glow-amber {
-      box-shadow: 0 0 12px rgba(245, 158, 11, 0.35);
-    }
-    .badge-glow-red {
-      box-shadow: 0 0 12px rgba(244, 63, 94, 0.35);
-    }
+    * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-sky-500 selection:text-white">
@@ -79,7 +47,7 @@
             <span class="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900">K-Insure <span class="text-sky-600">Director</span></span>
             <span class="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">2026.09 Ver</span>
           </div>
-          <p class="text-xs text-slate-500 hidden sm:block">대한민국 판매 전 상품 질병/상해코드 실시간 담보분석 & 실손면책 엔진</p>
+          <p class="text-xs text-slate-500 hidden sm:block">KCD 질병사인분류 전 코드(A00~Z99) 실시간 담보 분석 & 실손면책 엔진</p>
         </div>
       </div>
 
@@ -88,10 +56,6 @@
           <i class="fa-solid fa-scale-balanced text-amber-600"></i>
           <span class="hidden sm:inline">2026 분쟁판례</span>
           <span class="sm:hidden">판례</span>
-        </button>
-        <button onclick="triggerQuickAiModal()" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 text-white text-xs sm:text-sm font-semibold shadow-sm transition flex items-center gap-1.5">
-          <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i>
-          <span>AI 심층 약관진단</span>
         </button>
       </div>
     </div>
@@ -115,7 +79,7 @@
             질병코드(KCD) 또는 진단명을 입력하세요!
           </h1>
           <p class="text-slate-300 text-sm sm:text-base mb-6 leading-relaxed">
-            진단비 100% 매칭, 1~5종/1~8종/N대 수술비 해당 여부, 입원일당, 실손 보장 및 <strong class="text-amber-400">면책 주의조항</strong>과 <strong class="text-emerald-400">청구 필수서류</strong>를 즉시 분석합니다.
+            모든 KCD 질병코드(A00~Z99)를 지원합니다. 진단비 100% 매칭, 1~5종/1~8종/N대 수술비 해당 여부, 입원일당, 실손 보장 및 <strong class="text-amber-400">면책 주의조항</strong>과 <strong class="text-emerald-400">청구 필수서류</strong>를 즉시 분석합니다.
           </p>
 
           <!-- Search Input Box -->
@@ -125,7 +89,7 @@
               <input 
                 type="text" 
                 id="diseaseSearchInput"
-                placeholder="예: C73 (갑상선암), I63 (뇌경색), I20 (협심증), M51 (디스크), 백내장, 대장용종..."
+                placeholder="질병코드(예: C73, I63, M51, D25, K80, S83) 또는 진단명 입력..."
                 class="w-full pl-12 pr-28 py-4 bg-white text-slate-900 rounded-xl text-base sm:text-lg font-medium shadow-2xl focus:outline-none focus:ring-4 focus:ring-sky-400/50 transition placeholder:text-slate-400"
                 autocomplete="off"
                 onkeyup="handleSearchInput(event)"
@@ -139,7 +103,6 @@
 
             <!-- Autocomplete suggestions dropdown -->
             <div id="autocompleteDropdown" class="absolute left-0 right-0 top-full mt-1 bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden z-50 hidden max-h-72 overflow-y-auto">
-              <!-- populated by JS -->
             </div>
           </div>
 
@@ -149,11 +112,13 @@
             <button onclick="quickSelect('C73')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">C73 갑상선암</button>
             <button onclick="quickSelect('I63')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">I63 뇌경색</button>
             <button onclick="quickSelect('I20')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">I20 협심증</button>
-            <button onclick="quickSelect('M51.2')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">M51 디스크/도수치료</button>
+            <button onclick="quickSelect('I21')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">I21 심근경색</button>
+            <button onclick="quickSelect('M51')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">M51 디스크</button>
             <button onclick="quickSelect('K63.5')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">K63.5 대장용종</button>
-            <button onclick="quickSelect('H25')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">H25 노년백내장</button>
-            <button onclick="quickSelect('K60')" class="px-2.5 py-1 rounded-md bg-rose-900/60 hover:bg-rose-800 text-rose-200 border border-rose-700/50 transition">K60 치핵(실손면책주의)</button>
-            <button onclick="quickSelect('S52.5')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">S52.5 손목골절</button>
+            <button onclick="quickSelect('D25')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">D25 자궁근종</button>
+            <button onclick="quickSelect('H25')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">H25 백내장</button>
+            <button onclick="quickSelect('K60')" class="px-2.5 py-1 rounded-md bg-rose-900/60 hover:bg-rose-800 text-rose-200 border border-rose-700/50 transition">K60 치핵</button>
+            <button onclick="quickSelect('S52')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">S52 손목골절</button>
           </div>
         </div>
       </div>
@@ -161,45 +126,22 @@
 
     <!-- Dynamic Analysis Content Area -->
     <div id="resultsContainer" class="space-y-6">
-      <!-- Welcome / Default Explanatory State (Shown initially) -->
       <div id="emptyState" class="bg-white rounded-2xl border border-slate-200 p-8 sm:p-12 text-center shadow-sm">
         <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-3xl">
           <i class="fa-solid fa-stethoscope"></i>
         </div>
         <h2 class="text-xl font-bold text-slate-800 mb-2">원하시는 질병코드나 질환명을 검색해보세요</h2>
         <p class="text-slate-500 text-sm max-w-lg mx-auto mb-6">
-          상단의 검색창에 질병분류기호(예: C16, I21, S83) 또는 질환명(예: 위암, 급성심근경색, 십자인대파열)을 입력하시면 2026년 현행 약관 기준 보장 맵이 완벽하게 전개됩니다.
+          질병분류기호(예: C16, I61, S83, K80, N20) 또는 질환명을 입력하시면 2026년 현행 약관 기준 보장 맵이 완벽하게 전개됩니다.
         </p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-left max-w-4xl mx-auto">
-          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:border-sky-300 transition">
-            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1">
-              <span class="text-emerald-500"><i class="fa-solid fa-circle-check"></i></span> 진단비 세부 범위
-            </div>
-            <p class="text-xs text-slate-500">일반암, 소액/유사암, 뇌혈관/뇌졸중/뇌출혈, 허혈성/심근경색 차등 판정</p>
-          </div>
-          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:border-sky-300 transition">
-            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1">
-              <span class="text-sky-500"><i class="fa-solid fa-scissors"></i></span> 수술비 종별 & N대 매칭
-            </div>
-            <p class="text-xs text-slate-500">생보 1~5종, 손보 신1~8종, N대 질병수술비 및 로봇·복강경 시술 인정기준</p>
-          </div>
-          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:border-sky-300 transition">
-            <div class="font-bold text-slate-800 flex items-center gap-2 mb-1">
-              <span class="text-rose-500"><i class="fa-solid fa-shield-halved"></i></span> 실손 면책/분쟁 판례
-            </div>
-            <p class="text-xs text-slate-500">1~4세대 실손 급여/비급여 처리, 금감원 분쟁조정 기준 및 법정 면책조항 적시</p>
-          </div>
-        </div>
       </div>
 
-      <!-- Detail Card (Rendered via JS on selection) -->
-      <div id="diseaseDetailView" class="hidden space-y-6">
-        <!-- Will be dynamically populated -->
-      </div>
+      <!-- Detail Card -->
+      <div id="diseaseDetailView" class="hidden space-y-6"></div>
     </div>
   </main>
 
-  <!-- Dispute & Case Study Modal -->
+  <!-- Dispute Modal -->
   <div id="disputeModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between pb-4 border-b border-slate-200 mb-5">
@@ -245,7 +187,7 @@
             <i class="fa-solid fa-microscope text-emerald-600"></i> 대장용종 및 직장 유암종(D37.5 vs C20)
           </h4>
           <p class="text-xs text-emerald-800">
-            직장 신경내분비종양(NET)은 병리조직검사상 경계성종양(D37.5)으로 분류되더라도 WHO 분류 기준 및 종양 크기, 유사분열 수 등에 따라 일반암(C20) 진단비 전액 수령 분쟁이 가능합니다. 병리조직검사 결과지 전문 분석이 필수입니다.
+            직장 신경내분비종양(NET)은 병리조직검사상 경계성종양(D37.5)으로 분류되더라도 WHO 분류 기준 및 종양 크기, 유사분열 수 등에 따라 일반암(C20) 진단비 전액 수령 분쟁이 가능합니다.
           </p>
         </div>
       </div>
@@ -254,54 +196,6 @@
         <button onclick="closeDisputeModal()" class="px-5 py-2 bg-slate-900 text-white rounded-xl text-sm font-semibold hover:bg-slate-800 transition">
           확인 완료
         </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- AI Gemini Deep Diagnostics Modal -->
-  <div id="aiModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-4">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center">
-            <i class="fa-solid fa-brain"></i>
-          </div>
-          <div>
-            <h3 class="text-lg font-bold text-slate-900">보험디렉터 Gemini AI 특수질환 약관 감정</h3>
-            <p class="text-xs text-slate-500">2026년 최신 약관 기준 희귀/복합질환 맞춤형 심층 분석</p>
-          </div>
-        </div>
-        <button onclick="closeAiModal()" class="text-slate-400 hover:text-slate-700 text-lg p-1">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-
-      <div class="space-y-4">
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">진단서 상의 질병코드 및 수술명/치료내용 입력</label>
-          <textarea 
-            id="aiCustomQuery" 
-            rows="3" 
-            placeholder="예: 질병코드 M75.1(회전근개파열) 진단 후 관절경하 봉합술 및 체외충격파 5회 시행함. 3세대 실손과 1-5종 수술비 받을 수 있는지?"
-            class="w-full p-3 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none"></textarea>
-        </div>
-
-        <button 
-          id="aiSubmitBtn"
-          onclick="requestAiAnalysis()" 
-          class="w-full py-3 bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 text-white font-bold rounded-xl text-sm shadow-md transition flex items-center justify-center gap-2">
-          <i class="fa-solid fa-robot"></i>
-          <span>디렉터 AI 정밀 판정 실행</span>
-        </button>
-
-        <!-- AI Output Box -->
-        <div id="aiOutputBox" class="hidden mt-4 p-4 rounded-xl bg-slate-50 border border-slate-200 text-sm leading-relaxed max-h-80 overflow-y-auto">
-          <div id="aiLoadingSpinner" class="flex flex-col items-center justify-center py-6 text-slate-500">
-            <i class="fa-solid fa-spinner fa-spin text-2xl text-sky-600 mb-2"></i>
-            <span class="text-xs font-semibold">대한민국 보험약관 데이터베이스 및 분쟁판례 교차검증 중...</span>
-          </div>
-          <div id="aiResultText" class="text-slate-800 whitespace-pre-line text-xs sm:text-sm"></div>
-        </div>
       </div>
     </div>
   </div>
@@ -315,11 +209,11 @@
   </div>
 
   <script>
-    /* Window Global Reference to completely prevent ReferenceError */
     window.currentDisease = null;
     var currentDisease = null;
 
-    const INSURANCE_DB = [
+    // 1. 다빈도 상세 데이터베이스
+    const DETAILED_DB = [
       {
         code: "C73",
         name: "갑상선의 악성 신생물 (갑상선암)",
@@ -328,52 +222,48 @@
         disputeLevel: "매우 높음 (림프절 전이 C77 원발부위 분쟁)",
         diagnosis: {
           available: true,
-          badgeText: "소액/유사암 분류 (일부 과거상품 일반암)",
+          badgeText: "소액/유사암 분류 (10~20%)",
           details: [
-            "2007년 이후 가입 상품 대부분: [유사암/소액암] 진단비로 일반암의 10~20% (통상 300만~2,000만원) 지급.",
-            "2007년 4월 이전 가입 생명/손보 상품: [일반암 진단비] 100% 수령 가능!",
-            "림프절 전이(C77) 동반 시: 2011년 4월 이후 표준약관의 '원발부위 기준 조항'에 따라 C73 소액암 기준 지급 (단, 2011년 4월 이전 상품은 일반암 전액 청구 소송/분쟁 승소 가능)."
+            "2007년 이후 가입 상품 대부분: [유사암/소액암] 진단비로 일반암의 10~20% 지급.",
+            "2007년 4월 이전 가입 상품: [일반암 진단비] 100% 수령 가능.",
+            "림프절 전이(C77) 동반 시: 2011년 4월 이후 약관은 원발부위(C73) 기준 적용. 이전 상품은 일반암 분쟁 가능."
           ]
         },
         surgery: {
           available: true,
           badgeText: "질병수술비 + 1~5종(3종/4종) + 암수술비",
           details: [
-            "질병수술비: 전액 지급 (약관상 감액기간 경과 시 100%).",
-            "1~5종 수술비: 갑상선 완전절제술/아전절제술은 [3종 수술비] (개경술 및 내분비계 관혈 수술). 경부 림프절 광범위 곽청술 동반 시 [4종] 인정 가능.",
-            "신 1~8종 수술비: [4종 또는 5종] 매칭.",
-            "다빈치 로봇수술(로봇 BABA/경구 로봇수술): 질병수술비, 종수술비, 암수술비 모두 보장. 최근 '로봇수술 특정치료비' 특약 탑재 시 500만~2,000만원 추가 지급."
+            "갑상선 전절제술/엽절제술: 생보 1~5종 중 [3종 수술비] 해당.",
+            "경부 림프절 곽청술 동반 시: [4종 수술비] 인정 가능.",
+            "다빈치 로봇수술(BABA 등): 질병수술비, 암수술비 및 로봇수술 특정치료비 특약 매칭."
           ]
         },
         hospitalDaily: {
           available: true,
           badgeText: "질병입원일당 + 암입원일당(직접치료 한정)",
           details: [
-            "질병입원일당: 1일 이상 입원 시 일수대로 지급 (통상 180일 한도).",
-            "암입원일당: 수술 직후 급성기 치료 입원은 전액 인정. (단, 요양병원 입원은 '암직접치료' 분쟁 발생하므로 '암요양병원 입원특약' 별도 청구 필요).",
-            "간병인 사용/지원일당: 입원 중 간병인 사용 시 1일당 가입금액(15~20만원) 지급."
+            "수술 직후 급성기 입원은 암직접치료 입원일당 전액 인정.",
+            "요양병원 단순 요양 입원은 '암요양병원 입원특약' 별도 확인 필요."
           ]
         },
         indemnity: {
           available: true,
-          status: "보장 (일부 비급여 주의)",
+          status: "정상 보장",
           generations: {
-            gen1: "1세대(구실손): 상해/질병 입원의료비 100% 보장 (본인부담금 0원).",
-            gen2: "2세대(표준화): 급여/비급여 80~90% 보장.",
-            gen3: "3세대(착한실손): 급여 90%, 비급여 80% 보장.",
-            gen4: "4세대: 급여 80%, 비급여 70% 보장 (비급여 3대 특약 및 5단계 할증제 적용)."
+            gen1: "1세대: 입원의료비 100% 보장.",
+            gen2: "2세대: 급여/비급여 80~90% 보장.",
+            gen3: "3세대: 급여 90%, 비급여 80% 보장.",
+            gen4: "4세대: 급여 80%, 비급여 70% 보장 (비급여 5단계 할증제 적용)."
           },
           exclusions: [
-            "로봇수술 비급여(약 800만~1,200만원): 1~4세대 실손 모두 치료목적 의사 소견 시 비급여 한도 내 보장.",
-            "단, 방사선 동위원소 옥소 치료 후 단순 격리 목적의 요양병원 입원은 실손 통원의료비 한도로 축소되거나 비급여 병실료 차액 면책될 수 있음."
+            "방사선 동위원소(옥소) 치료 후 단순 격리 목적 요양병원 입원은 비급여 병실료 삭감 가능."
           ]
         },
         claimDocs: [
-          { name: "진단서 (또는 입퇴원확인서)", desc: "한국표준질병사인분류(KCD) 질병코드 C73 기재 필수", required: true },
-          { name: "조직병리검사 결과지 (Pathology Report)", desc: "영문 결과지 필수 (Papillary thyroid carcinoma 등 조직학적 진단 확인)", required: true },
-          { name: "수술확인서 (또는 수술기록지)", desc: "수술명(갑상선전절제술, 엽절제술, 로봇수술 여부) 명시", required: true },
-          { name: "진료비 계산서·영수증", desc: "급여/비급여 구분된 병원 정산 영수증", required: true },
-          { name: "진료비 세부내역서", desc: "비급여 로봇수술, 재료대, 약제 코드 상세 기재본", required: true }
+          { name: "진단서", desc: "질병코드 C73 기재", required: true },
+          { name: "조직병리검사 결과지 (Pathology Report)", desc: "영문 원본 필수 (Papillary carcinoma 등)", required: true },
+          { name: "수술확인서 / 입퇴원확인서", desc: "수술기법 및 입원일수 명시", required: true },
+          { name: "진료비 영수증 및 세부내역서", desc: "급여/비급여 구분 정산 영수증", required: true }
         ]
       },
       {
@@ -381,88 +271,28 @@
         name: "뇌경색증 (Cerebral infarction)",
         category: "뇌혈관질환",
         subCategory: "허혈성 뇌졸중",
-        disputeLevel: "중간 (열공성 뇌경색 I63.9 진단비 부지급 분쟁)",
+        disputeLevel: "중간 (열공성 뇌경색 분쟁)",
         diagnosis: {
           available: true,
-          badgeText: "뇌혈관질환 진단비 + 뇌졸중 진단비 O (뇌출혈 X)",
+          badgeText: "뇌혈관질환 + 뇌졸중 100% 지급 (뇌출혈 X)",
           details: [
-            "뇌혈관질환 진단비: 100% 전액 지급.",
-            "뇌졸중 진단비: 100% 전액 지급 (I60, I61, I62, I63, I65, I66 포함).",
-            "⚠️ [주의] 뇌출혈 진단비만 가입한 경우: 뇌경색(I63)은 '출혈'이 아니므로 1원도 지급되지 않음!",
-            "열공성 뇌경색(Lacunar infarction) 분쟁: 증상이 경미하거나 우연히 발견된 열공성 뇌경색에 대해 보험사가 I67.8(만성 뇌허혈증)으로 삭감 시도하므로 신경학적 결손 소견 차트 확보 필수."
+            "뇌혈관질환 진단비 & 뇌졸중 진단비 100% 전액 지급.",
+            "⚠️ 뇌출혈 진단비만 보유 시: 경색은 출혈이 아니므로 전액 면책(0원).",
+            "열공성 뇌경색(Lacunar): 신경학적 결손 미비 시 I67.8 삭감 시도에 대응 필요."
           ]
         },
         surgery: {
           available: true,
-          badgeText: "뇌혈관질환 수술비 + 1~5종(3종/5종)",
+          badgeText: "뇌혈관수술비 + 1~5종(3종/5종)",
           details: [
-            "혈전용해제(tPA) 투여: 과거 약관에서는 관혈수술이 아니므로 종수술비 부지급이나, 최근 '혈전용해치료비' 특약 가입 시 500만~1,000만원 별도 지급.",
-            "경피적 뇌혈관 기계적 혈전제거술(스텐트 리트리버): [3종 수술비] (카테터 혈관내 시술) 및 뇌혈관수술비 지급.",
-            "개두술을 통한 두개강내 혈관문합술: [5종 수술비] (개두 관혈수술) 최고액 지급."
+            "경피적 기계적 혈전제거술: [3종 수술비] (카테터 혈관내 시술).",
+            "개두술을 통한 두개강내 혈관문합술: [5종 수술비] 최고액 지급."
           ]
         },
         hospitalDaily: {
           available: true,
-          badgeText: "질병입원일당 + 뇌혈관 특정입원일당 + 간병인",
-          details: [
-            "중환자실(ICU) 입원 시 중환자실 입원일당 중복 지급.",
-            "뇌경색 후유장해로 인한 보행/일상생활 불가 시 간병인 지원/사용일당 전액 인정."
-          ]
-        },
-        indemnity: {
-          available: true,
-          status: "급여/비급여 100% 보장 가능",
-          generations: {
-            gen1: "1세대: 입원 한도 내 본인부담금 0원.",
-            gen2: "2세대: 90% 또는 80% 보장.",
-            gen3: "3세대: 급여 90%, 비급여 80%.",
-            gen4: "4세대: 급여 80%, 비급여 70%."
-          },
-          exclusions: [
-            "뇌 MRI/MRA 촬영비용: 신경학적 증상이 있어 의사 처방 하에 시행된 경우 급여 및 비급여 전액 실손 인정.",
-            "단, 순수 건강검진 차원에서 임의로 촬영한 MRI는 실손 면책."
-          ]
-        },
-        claimDocs: [
-          { name: "진단서", desc: "I63 코드 및 발병일, 신경학적 결손 증상 명기", required: true },
-          { name: "뇌 MRI & MRA 영상판독결과지", desc: "급성기 뇌경색(DWI 고신호강도) 판독 문구 필수", required: true },
-          { name: "초진 진료기록지 (초진차트)", desc: "내원 당시 구음장애, 편마비 등 신경학적 증상 기재본", required: true },
-          { name: "수술확인서 / 시술기록지", desc: "혈전제거술 or tPA 약물투여 시 필수", required: false },
-          { name: "진료비 영수증 및 세부내역서", desc: "실손의료비 및 입원비 청구용", required: true }
-        ]
-      },
-      {
-        code: "I20",
-        name: "협심증 (Angina pectoris)",
-        category: "심혈관질환",
-        subCategory: "허혈성 심장질환",
-        disputeLevel: "중간 (급성심근경색 미지급 안내 관련)",
-        diagnosis: {
-          available: true,
-          badgeText: "허혈성심장질환 / 심혈관특정 O (급성심근경색 X)",
-          details: [
-            "허혈성심장질환 진단비: 100% 전액 지급 (I20~I25 보장).",
-            "심혈관특정질환 진단비: 100% 전액 지급.",
-            "⚠️ [주의] 급성심근경색(AMI) 진단비만 보유 시: 협심증(I20)은 심근괴사가 없는 허혈 상태이므로 1원도 부지급!",
-            "I20.0(불안정 협심증): 급격한 흉통으로 응고 전 상태이나 심근효소 수치 미상승 시 심근경색 인정 불가."
-          ]
-        },
-        surgery: {
-          available: true,
-          badgeText: "허혈성심장질환수술비 + 1~5종(3종) + N대수술비",
-          details: [
-            "관상동맥 조영술(CAG): 단순 검사이므로 수술비 부지급.",
-            "경피적 관상동맥 풍선확장술 / 스텐트삽입술(PCI): [3종 수술비] (카테터 경피적 혈관성형술) 및 허혈성수술비 지급.",
-            "관상동맥우회술(CABG - 개흉술): [5종 수술비] 최고액 지급."
-          ]
-        },
-        hospitalDaily: {
-          available: true,
-          badgeText: "질병입원일당 + 심장질환입원일당",
-          details: [
-            "스텐트 시술 통상 2박 3일 입원 일당 지급.",
-            "중환자실 입원일당 해당 시 합산 지급."
-          ]
+          badgeText: "질병입원 + 간병인일당 + 중환자실일당",
+          details: ["중환자실 입원일당 중복 지급 및 간병인 지원/사용일당 매칭."]
         },
         indemnity: {
           available: true,
@@ -473,122 +303,188 @@
             gen3: "3세대: 급여 90%, 비급여 80%.",
             gen4: "4세대: 급여 80%, 비급여 70%."
           },
-          exclusions: [
-            "혈관용 스텐트 및 카테터 재료대 중 건강보험 급여 기준을 초과한 전액 본인부담금도 실손 비급여 처리 규정에 따라 보장."
-          ]
+          exclusions: ["건강검진 목적으로 임의 촬영한 뇌 MRI는 실손 면책."]
         },
         claimDocs: [
-          { name: "진단서", desc: "질병분류번호 I20 (I20.0, I20.1, I20.9 등) 명기", required: true },
-          { name: "관상동맥 조영술(CAG) 판독결과지", desc: "관상동맥 협착률(예: 70% 이상 stenosis) 기재 필수", required: true },
-          { name: "심전도(EKG) 및 심근효소(Troponin) 결과지", desc: "심장 정밀 검사 수치 확인용", required: true },
-          { name: "수술확인서 / 시술기록지", desc: "스텐트 삽입(PCI) 수술 여부 및 스텐트 모델명 명시", required: true },
-          { name: "진료비 영수증 & 진료비 세부내역서", desc: "비급여 치료재료 및 입원비 청구용", required: true }
+          { name: "진단서", desc: "I63 코드 명시", required: true },
+          { name: "뇌 MRI/MRA 판독결과지", desc: "급성기 경색 소견 필수", required: true },
+          { name: "초진기록지", desc: "마비, 구음장애 등 신경학적 결손 기록", required: true },
+          { name: "진료비 영수증 & 세부내역서", desc: "정산 내역서", required: true }
         ]
       },
       {
-        code: "M51.2",
-        name: "기타 명시된 추간판 탈출증 (허리디스크)",
-        category: "척추/관절",
-        subCategory: "근골격계 퇴행성/추간판질환",
-        disputeLevel: "매우 높음 (도수치료 실손 제한 & 비관혈 수술 인정 분쟁)",
+        code: "I20",
+        name: "협심증 (Angina pectoris)",
+        category: "심혈관질환",
+        subCategory: "허혈성 심장질환",
+        disputeLevel: "중간 (급성심근경색 미지급 분쟁)",
         diagnosis: {
-          available: false,
-          badgeText: "진단비 없음 (질병후유장해는 가능)",
+          available: true,
+          badgeText: "허혈성심장질환 100% 지급 (급성심근경색 X)",
           details: [
-            "일반 질병진단비는 해당 없음.",
-            "질병후유장해(3%~): 수술 후 또는 보존치료 6개월 후 척추의 기형이나 운동장해가 잔존할 경우 10%~40% 후유장해 보험금 수령 가능."
+            "허혈성 심장질환 진단비: 100% 전액 지급.",
+            "⚠️ 급성 심근경색증(AMI) 진단비만 보유 시: 협심증은 심근괴사가 없어 면책."
           ]
         },
         surgery: {
           available: true,
-          badgeText: "1~5종(관혈 3종 / 비관혈 1~2종 / 시술 분쟁)",
+          badgeText: "허혈성수술비 + 1~5종(3종)",
           details: [
-            "추간판절제술(Discectomy, 내시경 또는 미세현미경 관혈): [3종 수술비].",
-            "신경차단술 / 고주파 열치료술: 단순 주사/블록 시술은 [수술비 부지급] (금감원 분쟁조정 표준).",
-            "경막외 신경성형술(카테터): 보험사별 분쟁 극심. 비관혈 수술 특약 유무에 따라 1~2종 지급 다툼 발생."
+            "경피적 관상동맥 스텐트삽입술(PCI): [3종 수술비] 지급.",
+            "단순 관상동맥 조영술(CAG): 검사이므로 수술비 부지급."
           ]
         },
         hospitalDaily: {
           available: true,
-          badgeText: "질병입원일당 (실제 치료 목적 입원 한정)",
-          details: [
-            "수술을 위한 단기 입원(3~7일) 인정.",
-            "⚠️ 단순 통증 완화 목적의 한방병원 장기 입원은 건강보험심사평가원 및 보험사 현장실사로 '입원치료의 필요성 부재' 면책 다발!"
-          ]
+          badgeText: "질병입원일당 (2~3일)",
+          details: ["스텐트 시술 후 단기 입원일당 정상 지급."]
         },
         indemnity: {
           available: true,
-          status: "조건부 보장 (도수치료 극심한 제한)",
+          status: "정상 보장",
           generations: {
-            gen1: "1세대: 도수치료 연간 제한 없이 통원의료비 한도 내 전액.",
-            gen2: "2세대: 계약 약관에 따라 연간 180회 등 한도 적용.",
-            gen3: "3세대: 비급여 특약으로 연간 최대 50회, 350만원 한도.",
-            gen4: "4세대: 기본 10회 보장 후 매 10회마다 치료효과(통증척도, 척추각도 호전) 입증 서류 필수! (미입증 시 지급 거절)."
+            gen1: "1세대: 입원 100% 전액.",
+            gen2: "2세대: 80~90% 보장.",
+            gen3: "3세대: 급여 90%, 비급여 80%.",
+            gen4: "4세대: 급여 80%, 비급여 70%."
+          },
+          exclusions: ["국민건강보험 급여 기준 초과 스텐트 비급여분도 실손 약관 한도 내 처리."]
+        },
+        claimDocs: [
+          { name: "진단서", desc: "I20 질병코드 명시", required: true },
+          { name: "관상동맥 조영술(CAG) 결과지", desc: "혈관 협착률(%) 필수", required: true },
+          { name: "심전도 & 심근효소 검사지", desc: "정밀 검사 결과", required: true },
+          { name: "진료비 영수증 & 세부내역서", desc: "치료비 내역서", required: true }
+        ]
+      },
+      {
+        code: "M51",
+        name: "기타 추간판 장애 (허리디스크 / 목디스크)",
+        category: "척추/관절",
+        subCategory: "근골격계 퇴행성 질환",
+        disputeLevel: "매우 높음 (도수치료 & 신경차단술 수술비 분쟁)",
+        diagnosis: {
+          available: false,
+          badgeText: "진단비 없음 (질병후유장해 가능)",
+          details: [
+            "일반 진단비 해당 없음. 6개월 후 장해 잔존 시 후유장해(3%~) 청구 가능."
+          ]
+        },
+        surgery: {
+          available: true,
+          badgeText: "1~5종(관혈 3종 / 비관혈 1~2종 / 시술 면책)",
+          details: [
+            "내시경/현미경하 디스크 절제술: [3종 수술비].",
+            "신경차단술 / 고주파 열치료술: 단순 주사치료이므로 약관상 [수술비 면책]."
+          ]
+        },
+        hospitalDaily: {
+          available: true,
+          badgeText: "질병입원일당 (수술 입원 한정)",
+          details: ["단순 통증 완화 목적의 한방병원 장기 입원은 입원필요성 부재로 면책 다발."]
+        },
+        indemnity: {
+          available: true,
+          status: "조건부 보장 (도수치료 제한)",
+          generations: {
+            gen1: "1세대: 연간 제한 없이 통원 한도 내 보장.",
+            gen2: "2세대: 연간 180회 한도 적용.",
+            gen3: "3세대: 도수치료 연간 50회, 350만원 한도.",
+            gen4: "4세대: 매 10회마다 치료효과(통증 호전 등) 입증 서류 필수 제출."
           },
           exclusions: [
-            "⚠️ 도수치료 면책 기준: 치료 목적이 아닌 단순 체형교정, 성장, 근육이완, 릴렉스 마사지성 치료는 전액 면책.",
-            "한방병원 비급여 첩약, 약침 등은 1~4세대 실손 공통 법정 비급여 면책."
+            "단순 피로회복, 체형교정, 마사지성 도수치료는 실손 전액 면책."
           ]
         },
         claimDocs: [
-          { name: "진단서 또는 통원확인서", desc: "M51.2 코드명 기재", required: true },
-          { name: "척추 MRI 영상 판독결과지", desc: "디스크 돌출/탈출 단계(Protrusion, Extrusion) 명시", required: true },
-          { name: "수술확인서 (수술 시)", desc: "수술기법(현미경하 절제술 등) 관혈 여부 명시", required: false },
-          { name: "도수치료 소견서 및 치료경과기록지", desc: "4세대 실손: 치료 전후 VAS 통증지수, ROM 각도 변화 필수", required: false },
-          { name: "진료비 영수증 & 진료비 세부내역서", desc: "회차별 도수치료 금액 상세 확인", required: true }
+          { name: "진단서 또는 통원확인서", desc: "M51 코드 명시", required: true },
+          { name: "척추 MRI 영상 판독지", desc: "디스크 탈출 정도 확인", required: true },
+          { name: "진료비 영수증 & 세부내역서", desc: "도수치료/주사료 내역", required: true }
         ]
       },
       {
         code: "K63.5",
         name: "결장의 폴립 / 대장용종 (Polyp of colon)",
         category: "소화기계",
-        subCategory: "위장관 용종/양성종양",
-        disputeLevel: "낮음 (조직검사 결과지상 악성/경계성 여부 확인 필요)",
+        subCategory: "위장관 양성종양",
+        disputeLevel: "낮음 (조직검사 결과지상 악성/경계성 여부 확인)",
         diagnosis: {
           available: false,
-          badgeText: "단순 선종 진단비 불가 (D12 양성종양)",
+          badgeText: "단순 선종 진단비 불가",
           details: [
-            "단순 과형성 용종이나 관상선종(Adenoma)은 암진단비 부지급.",
-            "⚠️ 고도 이형성증(High-grade dysplasia) 동반 시: 병리보고서에 따라 제자리암(D01.0, D01.2) 코드로 재발행하여 [유사암/제자리암 진단비] 수령 가능!",
-            "신경내분비종양(NET, 유암종)으로 판정될 경우: D37.5 또는 C20 분쟁으로 [일반암 진단비] 청구 대상."
+            "단순 선종은 암진단비 부지급. 고도이형성증 동반 시 제자리암(D01) 변경 검토."
           ]
         },
         surgery: {
           available: true,
-          badgeText: "질병수술비 + 1~5종(2종) + N대수술비",
+          badgeText: "질병수술비 + 1~5종(2종)",
           details: [
-            "대장 내시경하 용종절제술(Polypectomy), 점막절제술(EMR), 점막하박리술(ESD): [질병수술비 100% 지급].",
-            "1~5종 수술비: 내시경적 소화관 용종절제술은 [2종 수술비] 전액 지급.",
-            "신 1~8종 수술비: [2종 또는 3종] 매칭.",
-            "동일 날짜에 여러 개의 용종을 제거해도 수술 1회로 간주 지급."
+            "대장 내시경하 용종절제술(Polypectomy, EMR): [질병수술비 100%], [2종 수술비] 지급."
           ]
         },
         hospitalDaily: {
           available: false,
-          badgeText: "통원 시술이 일반적 (입원 불인정)",
-          details: [
-            "통상 당일 외래 내시경실에서 시행하므로 입원일당 해당 없음.",
-            "출혈 등 합병증으로 1박 이상 입원 치료 시에만 질병입원일당 청구 가능."
-          ]
+          badgeText: "통원 시술 일반적 (입원 불인정)",
+          details: ["당일 외래 시술이 대부분이므로 입원일당 해당 없음."]
         },
         indemnity: {
           available: true,
-          status: "정상 보장 (건강검진 중 발견 포함)",
+          status: "정상 보장 (검진 중 절제 포함)",
           generations: {
-            gen1: "1세대: 통원의료비 한도 내 외래 보장.",
-            gen2: "2세대: 외래 1~2만원 공제 후 보장.",
-            gen3: "3세대: 병원급별 1~2만원 공제 후 80~90% 보장.",
-            gen4: "4세대: 통원 1~2만원 or 20% 중 큰 금액 공제 후 보장."
+            gen1: "1세대: 외래 한도 내 보장.",
+            gen2: "2세대: 공제금액 차감 후 보장.",
+            gen3: "3세대: 의원/병원 공제 후 보장.",
+            gen4: "4세대: 통원 자기부담금 공제 후 보장."
           },
-          exclusions: [
-            "⚠️ 주의: 일반 정기 건강검진 비용 자체(내시경 기본비용)는 면책이나, 검진 도중 '치료 목적'으로 시행한 용종절제술 추가 시술비, 조직검사비, 마취비용 추가분은 실손 100% 보장!"
-          ]
+          exclusions: ["건강검진 기본비용은 면책이나 용종 절제 추가 시술비는 100% 보장."]
         },
         claimDocs: [
-          { name: "진료확인서 (또는 수술확인서)", desc: "병명(K63.5 또는 D12) 및 '내시경하 대장용종절제술 시행' 문구", required: true },
-          { name: "조직병리검사 결과지 (Pathology Report)", desc: "선종(Adenoma)의 이형성증 등급(High/Low grade) 확인용 필수", required: true },
-          { name: "진료비 계산서·영수증", desc: "검진센터 정산 영수증", required: true },
-          { name: "진료비 세부내역서", desc: "용종절제술 처치코드(Q7701 등) 기재 확인", required: true }
+          { name: "진료확인서 / 수술확인서", desc: "용종절제술 시행 문구", required: true },
+          { name: "조직병리검사 결과지", desc: "선종 조직학적 판정", required: true },
+          { name: "진료비 영수증 & 세부내역서", desc: "시술 처치코드 확인", required: true }
+        ]
+      },
+      {
+        code: "D25",
+        name: "자궁의 평활근종 (자궁근종 / Leiomyoma of uterus)",
+        category: "여성질환/양성종양",
+        subCategory: "생식기 양성신생물",
+        disputeLevel: "높음 (하이푸 시술 실손 입원비 분쟁)",
+        diagnosis: {
+          available: false,
+          badgeText: "진단비 없음",
+          details: ["양성 종양이므로 암/소액암 진단비 비해당."]
+        },
+        surgery: {
+          available: true,
+          badgeText: "부인과 N대 + 1~5종(2종/3종/4종) + 질병수술비",
+          details: [
+            "자궁근종 복강경/개복 절제술: [3종 수술비].",
+            "자궁적출술(Hysterectomy): [4종 수술비].",
+            "자궁경하 근종절제술: [2종 수술비].",
+            "하이푸(HIFU) 비침습 초음파치료: 수술비 지급 다툼 발생(비관혈 약관 확인)."
+          ]
+        },
+        hospitalDaily: {
+          available: true,
+          badgeText: "질병입원일당 (수술 시)",
+          details: ["복강경 및 개복 수술 시 통상 3~5일 입원일당 인정."]
+        },
+        indemnity: {
+          available: true,
+          status: "정상 보장 (하이푸 입원비 심사 강화)",
+          generations: {
+            gen1: "1세대: 입원의료비 100% 보장.",
+            gen2: "2세대: 80~90% 보장.",
+            gen3: "3세대: 급여 90%, 비급여 80%.",
+            gen4: "4세대: 급여 80%, 비급여 70%."
+          },
+          exclusions: ["하이푸 시술 당일 퇴원 시 통원의료비 한도로 축소될 수 있음."]
+        },
+        claimDocs: [
+          { name: "진단서 또는 수술확인서", desc: "D25 코드 및 수술명 기재", required: true },
+          { name: "골반 초음파 / MRI 판독지", desc: "근종 크기 및 위치 확인", required: true },
+          { name: "진료비 영수증 & 세부내역서", desc: "급여/비급여 내역", required: true }
         ]
       },
       {
@@ -596,277 +492,289 @@
         name: "노년 백내장 (Senile cataract)",
         category: "안과질환",
         subCategory: "수정체 질환",
-        disputeLevel: "극단적 (2022년 이후 대법원 판례로 실손 입원비 분쟁)",
+        disputeLevel: "극단적 (다초점 렌즈 비급여 및 입원 불인정)",
         diagnosis: {
           available: false,
           badgeText: "진단비 없음",
-          details: ["백내장은 진단비 담보 대상이 아닙니다."]
+          details: ["백내장은 진단비 대상이 아닙니다."]
         },
         surgery: {
           available: true,
-          badgeText: "질병수술비 + 1~5종(1종) + 안과 특정수술비",
+          badgeText: "질병수술비 + 1~5종(1종)",
           details: [
-            "수정체 초음파유화술 및 인공수정체 삽입술: [질병수술비 지급].",
-            "1~5종 수술비: [1종 수술비] 지급 (양안 동시 수술 시 보험사별 1회 또는 각각 2회 지급 여부 약관 확인 필요).",
-            "N대 질병수술비: 다빈도 질환 수술비 또는 시각질환 수술비 매칭."
+            "초음파유화술 및 인공수정체 삽입: 질병수술비 및 [1종 수술비] 지급."
           ]
         },
         hospitalDaily: {
           available: false,
-          badgeText: "대부분 부지급 (외래 통원 간주)",
-          details: [
-            "2022년 대법원 전원합의체 판결 이후: 백내장 수술 후 낮병동 입원은 '실제 6시간 이상 관찰 및 처치가 필요한 중증 상태'가 아니면 입원으로 인정되지 않음."
-          ]
+          badgeText: "입원 불인정 (외래 통원 간주)",
+          details: ["대법원 판례상 6시간 미만 당일 수술은 통원의료비 적용."]
         },
         indemnity: {
           available: true,
-          status: "외래 한도 내 지급 (다초점 비급여 렌즈 면책 다발)",
+          status: "외래 한도 내 지급 (다초점 렌즈 면책 다발)",
           generations: {
-            gen1: "1세대(2009.09 이전): 다초점 렌즈 비급여 수백만원 보장 대상이었으나, 최근 입원 불인정으로 통원한도(10~30만원)만 지급.",
-            gen2: "2세대: 2016년 1월 개정 이전 상품은 다초점 비급여 분쟁, 2016년 이후는 비급여 렌즈 명시적 면책.",
-            gen3: "3세대: 다초점 인공수정체 비급여 렌즈비용은 '시력교정술'로 보아 전액 면책 (단, 국민건강보험 적용 단초점 급여 렌즈는 보장).",
-            gen4: "4세대: 비급여 다초점 렌즈 시력교정 목적 전액 면책 (급여 단초점 렌즈만 80% 보장)."
+            gen1: "1세대: 통원 한도(10~30만원) 내에서만 지급.",
+            gen2: "2세대: 2016년 이후 비급여 다초점 렌즈 면책.",
+            gen3: "3세대: 비급여 다초점 렌즈 면책 (급여 단초점만 보장).",
+            gen4: "4세대: 급여 단초점 렌즈만 80% 보장 (비급여 면책)."
           },
-          exclusions: [
-            "⚠️ 필수 확인: 세극등 현미경 검사 상 백내장 혼탁도가 LOCS III 기준 3~4등급 이상으로 시력장애가 명백히 입증되지 않으면 실손 통원의료비마저도 '미용/시력교정 목적'으로 간주되어 부지급될 수 있음!"
-          ]
+          exclusions: ["세극등현미경 검사 상 LOCS III 3등급 이상 혼탁 입증 실패 시 부지급."]
         },
         claimDocs: [
-          { name: "진료확인서 / 수술확인서", desc: "H25 코드 및 수정체유화술 시행 문구", required: true },
-          { name: "세극등 현미경 검사 결과지 및 사진", desc: "수정체 혼탁도 증명 필수 (보험사 심사 핵심)", required: true },
-          { name: "안과 정밀검사 결과지 (A/B스캔, 각막내피세포 등)", desc: "인공수정체 도수 결정 검사지", required: true },
-          { name: "진료비 영수증 & 진료비 세부내역서", desc: "단초점 급여 vs 다초점 비급여 항목 확인", required: true }
+          { name: "수술확인서", desc: "수술기법 기재", required: true },
+          { name: "세극등 현미경 판독 결과지 & 사진", desc: "혼탁도 증빙 필수", required: true },
+          { name: "진료비 영수증 & 세부내역서", desc: "단초점/다초점 내역 확인", required: true }
         ]
       },
       {
         code: "K60",
-        name: "치핵, 치열 및 치루 (Hemorrhoids / Anal fissure)",
+        name: "치핵, 치열 및 치루 (Hemorrhoids)",
         category: "소화기계/항문",
         subCategory: "항문 및 직장질환",
-        disputeLevel: "높음 (실손의료비 비급여 법정 면책)",
+        disputeLevel: "높음 (실손의료비 비급여 전액 면책)",
         diagnosis: {
           available: false,
           badgeText: "진단비 없음",
-          details: ["진단비 보장 대상이 아닙니다."]
+          details: ["진단비 담보 대상이 아닙니다."]
         },
         surgery: {
           available: true,
-          badgeText: "치핵수술비 + 1~5종(1종) + 질병수술비",
+          badgeText: "치핵수술비 + 1~5종(1종)",
           details: [
-            "치핵근본절제술(LE): [치핵수술비 특약]에서 10만~50만원 지급.",
-            "1~5종 수술비: 치핵/항문 질환 수술은 [1종 수술비] 전액 지급.",
-            "질병수술비: 약관에 '치핵 및 직장항문질환 제외' 단서가 있는지 필수 확인 (표준형 질병수술비는 보통 보상하지 않는 손해에 K60~K62 포함되어 면책인 경우가 많음)."
+            "치핵근본절제술: 치핵수술비 및 [1종 수술비] 지급.",
+            "일반 질병수술비는 약관상 항문질환 제외 여부 확인 필수."
           ]
         },
         hospitalDaily: {
           available: true,
-          badgeText: "질병입원일당 (보통 2~3일 입원)",
-          details: ["치핵 수술 후 입원 시 질병입원일당 전액 지급."]
+          badgeText: "질병입원일당 (2~3일)",
+          details: ["수술 후 입원일당 정상 지급."]
         },
         indemnity: {
           available: false,
-          status: "⚠️ 비급여 전액 면책 (급여 본인부담금만 보장)",
+          status: "⚠️ 비급여 전액 면책 (급여만 보장)",
           generations: {
-            gen1: "1세대: 치핵/항문질환(K60~K62) [전액 면책] (급여도 미지급).",
-            gen2: "2세대(2009.10 이후): 국민건강보험 요양급여 중 [급여 본인부담금만 보장] (비급여는 면책).",
+            gen1: "1세대: K60~K62 항문질환 [전액 면책] (급여도 미지급).",
+            gen2: "2세대: [급여 본인부담금만 보장] (비급여 전액 면책).",
             gen3: "3세대: [급여 본인부담금만 보장] (비급여 전액 면책).",
             gen4: "4세대: [급여 본인부담금만 보장] (비급여 전액 면책)."
           },
-          exclusions: [
-            "⚠️ 실손 면책 경보: 무통주사(PCA 비급여), 상급병실료 차액 비급여, 초음파 절삭기 비급여 등 치핵 치료 중 발생한 '비급여'는 1~4세대 전 실손에서 약관상 절대 보장되지 않습니다!"
-          ]
+          exclusions: ["무통주사(PCA 비급여), 상급병실료 등 비급여는 전 세대 실손 면책."]
         },
         claimDocs: [
-          { name: "수술확인서 또는 진단서", desc: "질병코드 K60(또는 K61, K62) 및 치핵근본수술명 기재", required: true },
-          { name: "입퇴원 확인서", desc: "입원일수 확인용", required: true },
-          { name: "진료비 영수증", desc: "급여 본인부담금 확인용 (실손 청구)", required: true },
-          { name: "진료비 세부내역서", desc: "수술 명세 확인용", required: true }
+          { name: "수술확인서 또는 진단서", desc: "치핵근본수술명 기재", required: true },
+          { name: "진료비 영수증 & 세부내역서", desc: "급여 본인부담금 확인", required: true }
         ]
       },
       {
-        code: "S52.5",
-        name: "노골 하단의 골절 / 손목 골절 (Fracture of lower end of radius)",
+        code: "S52",
+        name: "아래팔의 골절 (요골/척골/손목 골절)",
         category: "상해/외상",
         subCategory: "골절 및 관절손상",
-        disputeLevel: "낮음 (치아파절제외 여부 확인)",
+        disputeLevel: "낮음 (단순 부목 면책 확인)",
         diagnosis: {
           available: true,
           badgeText: "골절진단비 100% 지급",
-          details: [
-            "골절진단비: 20만~100만원 전액 지급 (사고당 1회).",
-            "5대골절 진단비: 노골(요골) 골절은 5대골절(머리, 목, 흉추, 요추, 대퇴골)에 해당하지 않으므로 일반골절만 지급."
-          ]
+          details: ["사고당 골절진단비 전액 지급 (치아파절 제외 여부 확인)."]
         },
         surgery: {
           available: true,
-          badgeText: "상해수술비 + 1~5종(관혈 2종/3종) + 골절수술비",
+          badgeText: "상해수술비 + 1~5종(관혈 2종)",
           details: [
-            "관혈적 정복 및 내고정술(ORIF, 핀/플레이트 삽입): [상해수술비] 및 [골절수술비] 100% 지급.",
-            "1~5종 수술비: 사지 골절 관혈수술은 [2종 수술비] (복잡골절 수술 시 3종 가능).",
-            "도수정복 및 단순 깁스(통깁스/반깁스): 수술비 부지급 (단, '깁스치료비' 특약 가입 시 통깁스(Cast)에 한해 깁스치료비 지급, 반깁스/Splint는 면책)."
+            "관혈적 핀/금속판 내고정술(ORIF): 상해수술비 및 [2종 수술비] 지급.",
+            "통깁스(Cast) 시 깁스치료비 지급 (반깁스 Splint는 면책)."
           ]
         },
         hospitalDaily: {
           available: true,
-          badgeText: "상해입원일당 + 상해간병인사용일당",
-          details: ["수술 및 입원 치료 시 상해입원일당 전액 지급."]
+          badgeText: "상해입원일당",
+          details: ["수술 입원 시 상해입원일당 전액 지급."]
         },
         indemnity: {
           available: true,
-          status: "상해 실손의료비 100% 정상 지급",
+          status: "상해 실손 100% 정상 지급",
           generations: {
-            gen1: "1세대: 일반상해의료비(본인부담금 0원, 100% 지급).",
+            gen1: "1세대: 상해의료비 100% 보장.",
             gen2: "2세대: 상해입원 80~90% 보장.",
             gen3: "3세대: 급여 90%, 비급여 80%.",
             gen4: "4세대: 급여 80%, 비급여 70%."
           },
-          exclusions: [
-            "고의적 자해, 폭행사고는 상해 면책.",
-            "직업급수 변경 미통지(운전기사, 현장건설직 등으로 이직 후 통지 누락) 시 비례보상 삭감 주의."
-          ]
+          exclusions: ["고의 자해사고 면책, 위험 직업 변경 미통지 시 삭감 가능."]
         },
         claimDocs: [
-          { name: "진단서 (또는 골절확인서)", desc: "S52.5 및 사고일자, 수상경위 기재", required: true },
-          { name: "X-ray / CT 영상 판독결과지", desc: "골절선(Fracture line) 확인 필수", required: true },
-          { name: "수술확인서", desc: "관혈적 정복술 여부 기재 (수술 시)", required: false },
-          { name: "진료비 계산서 & 진료비 세부내역서", desc: "치료비 정산 내역", required: true }
-        ]
-      },
-      {
-        code: "C16",
-        name: "위의 악성 신생물 (위암 / Gastric cancer)",
-        category: "암/종양",
-        subCategory: "소화기계 악성신생물",
-        disputeLevel: "낮음 (일반암 100% 지급 대상)",
-        diagnosis: {
-          available: true,
-          badgeText: "일반암 진단비 100% 전액 지급",
-          details: [
-            "일반암 진단비: 100% 지급 (면책 90일 경과 후).",
-            "특정암 / 5대 고액치료비암: 가입 특약에 따라 추가 합산 지급 가능."
-          ]
-        },
-        surgery: {
-          available: true,
-          badgeText: "암수술비 + 질병수술비 + 1~5종(4종/5종)",
-          details: [
-            "위절제술(아전자궁/전절제술): 1~5종 수술비 중 [4종 수술비] (복강경/개복 관혈수술).",
-            "다빈치 로봇수술 시행 시 로봇치료비 특약 추가 지급.",
-            "내시경적 점막하 박리술(ESD)로 조기위암 제거 시: 1~5종 중 [3종 수술비] 지급."
-          ]
-        },
-        hospitalDaily: {
-          available: true,
-          badgeText: "질병입원 + 암입원일당 + 간병인일당",
-          details: ["수술 및 항암화학요법 치료 입원 시 100% 전액 인정."]
-        },
-        indemnity: {
-          available: true,
-          status: "정상 보장 (산정특례 적용으로 본인부담금 5% 경감)",
-          generations: {
-            gen1: "1세대: 본인부담금 전액 지급.",
-            gen2: "2세대: 급여/비급여 80~90% 보장.",
-            gen3: "3세대: 급여 90%, 비급여 80% 보장.",
-            gen4: "4세대: 급여 80%, 비급여 70% 보장 (중증 산정특례로 급여 본인부담 5% 적용)."
-          },
-          exclusions: ["치료목적이 아닌 면역강화 건강보조제 주사(이뮨노신 등)는 입증 미비 시 삭감 가능."]
-        },
-        claimDocs: [
-          { name: "진단서", desc: "질병코드 C16 명시", required: true },
-          { name: "조직병리검사 결과지", desc: "Adenocarcinoma (선암종) 조직학적 판정", required: true },
-          { name: "수술확인서 / 입퇴원확인서", desc: "수술기법 기재", required: true },
-          { name: "진료비 영수증 & 세부내역서", desc: "항암제 및 치료비 내역", required: true }
-        ]
-      },
-      {
-        code: "F32",
-        name: "우울에피소드 (Depressive episode / 우울증)",
-        category: "정신/행동장애",
-        subCategory: "기분(정동) 장애",
-        disputeLevel: "높음 (실손 비급여 전액 면책 & 세대별 보장 편차)",
-        diagnosis: {
-          available: false,
-          badgeText: "진단비 없음",
-          details: ["우울증에 대한 정액 진단비는 일반 보험에 존재하지 않습니다."]
-        },
-        surgery: {
-          available: false,
-          badgeText: "해당 없음",
-          details: ["정신과적 약물/상담 치료이므로 수술비 비해당."]
-        },
-        hospitalDaily: {
-          available: true,
-          badgeText: "질병입원일당 (자해 위험 관리 입원)",
-          details: ["정신건강의학과 폐쇄병동/개방병동 입원 시 의학적 필요성 인정되는 경우 질병입원일당 지급."]
-        },
-        indemnity: {
-          available: true,
-          status: "⚠️ 2016년 이후 실손 [급여만 보장], 비급여 전액 면책",
-          generations: {
-            gen1: "1세대: 정신과 질환(F00~F99) [전액 면책] (치매 F00~F03만 예외적 보장).",
-            gen2: "2세대(2015년 이전): [전액 면책].",
-            gen3: "2016년 이후 및 3세대: 급여 본인부담금만 보장 (비급여 심리치료/비급여 약제 전액 면책).",
-            gen4: "4세대: 급여 항목만 80% 보장 (비급여 심리상담/인지검사 전액 면책)."
-          },
-          exclusions: [
-            "⚠️ 실손 면책 경보: 정신과 의원 또는 임상심리센터에서 시행하는 '비급여 심리치료', '비급여 인지치료', '정신분석 검사 비급여'는 1~4세대 전 실손의료비에서 전액 보상 불가(면책)입니다."
-          ]
-        },
-        claimDocs: [
-          { name: "진단서 또는 소견서", desc: "F32 코드 및 증상 치료 필요성 명시", required: true },
-          { name: "진료비 계산서·영수증", desc: "요양급여 항목 기재 영수증", required: true },
-          { name: "진료비 세부내역서", desc: "급여 약제비 및 진찰료 확인용", required: true }
-        ]
-      },
-      {
-        code: "I21",
-        name: "급성 심근경색증 (Acute myocardial infarction)",
-        category: "심혈관질환",
-        subCategory: "허혈성 심장질환",
-        disputeLevel: "중간 (심근효소 및 심전도 변화 입증 필수)",
-        diagnosis: {
-          available: true,
-          badgeText: "급성심근경색 + 허혈성 + 심혈관 특정 100% 지급",
-          details: [
-            "급성심근경색 진단비: 100% 전액 지급 (I21, I22, I23).",
-            "허혈성심장질환 진단비: 100% 전액 지급 (중복 가입 시 합산 수령).",
-            "심혈관특정치료비: 스텐트 시술 또는 중환자실 치료 시 추가 보장."
-          ]
-        },
-        surgery: {
-          available: true,
-          badgeText: "허혈성수술비 + 1~5종(3종/5종)",
-          details: [
-            "경피적 관상동맥 스텐트삽입술(PCI): 1~5종 중 [3종 수술비] 지급.",
-            "관상동맥우회술(CABG - 개흉술): 1~5종 중 [5종 수술비] 최고액 지급."
-          ]
-        },
-        hospitalDaily: {
-          available: true,
-          badgeText: "질병입원 + 심장 특정입원 + 중환자실일당",
-          details: ["중환자실 입원 시 일반입원일당 + 중환자실일당 중복 지급."]
-        },
-        indemnity: {
-          available: true,
-          status: "정상 보장 (급여 5% 산정특례 적용)",
-          generations: {
-            gen1: "1세대: 입원 본인부담금 0원.",
-            gen2: "2세대: 80~90% 보장.",
-            gen3: "3세대: 급여 90%, 비급여 80%.",
-            gen4: "4세대: 급여 80%, 비급여 70%."
-          },
-          exclusions: ["발병 전 기왕증 고지의무 위반 여부 조사 가능성 있으므로 청약일 이전 3개월/5년 내 진료이력 확인 요망."]
-        },
-        claimDocs: [
-          { name: "진단서", desc: "질병분류기호 I21 명기", required: true },
-          { name: "심전도(EKG) 검사 결과지", desc: "ST절 상승(STEMI) 또는 비상승(NSTEMI) 파형 기록", required: true },
-          { name: "심근효소 검사 결과지", desc: "Troponin-I/T, CK-MB 수치 상승 확인 필수", required: true },
-          { name: "관상동맥 조영술(CAG) 판독지", desc: "혈관 폐색 및 스텐트 삽입 기록", required: true },
-          { name: "진료비 영수증 및 세부내역서", desc: "입원치료비 청구용", required: true }
+          { name: "진단서", desc: "S52 코드 및 사고경위 기재", required: true },
+          { name: "X-ray 판독지", desc: "골절선 확인", required: true },
+          { name: "진료비 영수증 & 세부내역서", desc: "정산 영수증", required: true }
         ]
       }
     ];
 
+    // 2. KCD 22개 대분류 자동 판정 룰 엔진 (DB 미등록 코드 처리)
+    function generateKcdRuleBasedItem(rawCode, rawQuery) {
+      const upper = rawCode.toUpperCase().trim();
+      const prefix = upper.charAt(0);
+      const numPart = parseFloat(upper.substring(1)) || 0;
+
+      let category = "일반 질환";
+      let subCategory = "기타 질환";
+      let disputeLevel = "보통 (일반 심사)";
+      
+      let diagAvailable = false;
+      let diagBadge = "해당 없음 / 약관 확인";
+      let diagDetails = ["해당 질환에 부합하는 특정 질병 진단비 가입 여부를 확인해야 합니다."];
+
+      let surgAvailable = true;
+      let surgBadge = "질병수술비 + 종수술비 (시술 시)";
+      let surgDetails = [
+        "약관상 절제·절단 등 조작을 가하는 관혈/비관혈 수술 시 질병수술비 지급.",
+        "생보 1~5종: 부위 및 난이도에 따라 1종~3종 수술비 매칭.",
+        "손보 1~8종: 해당 장기 수술 분류표 적용."
+      ];
+
+      let hospBadge = "질병입원일당 (입원 시 지급)";
+      let hospDetails = ["의사의 의학적 판단에 따라 1일 이상 입원 치료 시 질병입원일당 지급."];
+
+      let silsonStatus = "정상 보장";
+      let silsonGen = {
+        gen1: "1세대: 입원 100% 보장, 통원 공제 후 보장.",
+        gen2: "2세대: 급여 90%, 비급여 80~90% 보장.",
+        gen3: "3세대: 급여 90%, 비급여 80% 보장.",
+        gen4: "4세대: 급여 80%, 비급여 70% 보장."
+      };
+      let silsonExclusions = [
+        "치료 목적이 아닌 미용, 영양제, 단순 피로회복 목적 주사료는 실손 면책."
+      ];
+
+      // 대분류 알고리즘
+      if (prefix === 'C') {
+        category = "악성 신생물 (암)";
+        subCategory = "원발성 악성종양";
+        disputeLevel = "높음 (원발부위 및 조직검사 결과 분쟁)";
+        diagAvailable = true;
+        diagBadge = "일반암 진단비 100% 지급 대상";
+        diagDetails = [
+          "조직병리검사상 악성종양(Malignancy) 확정 시 일반암 진단비 100% 지급.",
+          "단, 전이암(C77~C80)은 원발부위 약관 규정에 따라 최초 발생 원발암 기준으로 보상."
+        ];
+        surgBadge = "암수술비 + 질병수술비 + 1~5종(3~5종)";
+        surgDetails = [
+          "악성신생물 근치수술 시 4종 또는 5종 수술비 해당.",
+          "암수술비 및 표적항암/방사선치료비 특약 매칭."
+        ];
+        hospBadge = "암입원일당 + 질병입원일당";
+        hospDetails = ["수술 및 항암치료 목적 입원 시 암직접치료 입원일당 인정."];
+      } else if (prefix === 'D') {
+        if (numPart <= 9) {
+          category = "상피내암 / 제자리암";
+          subCategory = "제자리 신생물";
+          diagAvailable = true;
+          diagBadge = "유사암 / 소액암 진단비 (10~20%)";
+          diagDetails = ["일반암의 10~20% 한도로 제자리암 진단비 지급."];
+        } else if (numPart >= 37 && numPart <= 48) {
+          category = "경계성 신생물";
+          subCategory = "행동양식 불명/미상의 신생물";
+          disputeLevel = "매우 높음 (일반암 전액 청구 분쟁 다발)";
+          diagAvailable = true;
+          diagBadge = "경계성종양 (일반암 다툼 가능)";
+          diagDetails = [
+            "기본 약관: 소액/경계성종양 진단비 (10~20%) 지급.",
+            "병리조직검사 소견에 따라 WHO 분류 기준상 일반암(100%) 주장 분쟁 가능."
+          ];
+        } else {
+          category = "양성 신생물 (양성종양)";
+          subCategory = "체표 및 장기 양성종양";
+          diagBadge = "진단비 없음";
+          diagDetails = ["양성 종양은 암진단비 대상이 아닙니다."];
+          surgBadge = "질병수술비 + 1~5종(1~3종)";
+        }
+      } else if (prefix === 'I') {
+        category = "순환기계통 질환";
+        subCategory = "뇌혈관 및 심혈관 질환군";
+        if (numPart >= 60 && numPart <= 62) {
+          diagAvailable = true;
+          diagBadge = "뇌출혈 + 뇌졸중 + 뇌혈관 100% 지급";
+          diagDetails = ["출혈성 뇌졸중으로 3대 뇌혈관 담보 모두 100% 지급."];
+          surgBadge = "뇌혈관수술비 + 1~5종(5종)";
+        } else if (numPart >= 60 && numPart <= 69) {
+          diagAvailable = true;
+          diagBadge = "뇌혈관질환 진단비 (뇌출혈 담보는 면책)";
+          diagDetails = ["뇌혈관질환 전용 진단비에서 지급. 뇌출혈 전용 담보는 부지급."];
+        } else if (numPart >= 20 && numPart <= 25) {
+          diagAvailable = true;
+          diagBadge = "허혈성 심장질환 진단비 매칭";
+          diagDetails = ["허혈성 심장질환 진단비 지급 (급성심근경색 여부는 별도 분별)."];
+        }
+      } else if (prefix === 'S' || prefix === 'T') {
+        category = "손상, 중독 및 외인에 의한 결과 (상해/외상)";
+        subCategory = "급격하고 우연한 외래의 사고";
+        diagAvailable = true;
+        diagBadge = "상해/골절 관련 담보 매칭";
+        diagDetails = ["외래의 사고로 인한 부상 시 골절진단비 및 상해 담보 100% 매칭."];
+        surgBadge = "상해수술비 + 1~5종(골/관절 관혈 시 2~3종)";
+        surgDetails = ["상해 수술비 전액 지급. 깁스는 통깁스(Cast)만 인정."];
+        hospBadge = "상해입원일당";
+        silsonStatus = "상해 실손의료비 전액 보장";
+        silsonExclusions = [
+          "피보험자의 고의 및 위험 직업 변경 미통지 사고 시 삭감/면책 주의."
+        ];
+      } else if (prefix === 'F') {
+        category = "정신 및 행동장애";
+        subCategory = "신경정신계 질환";
+        disputeLevel = "높음 (실손의료비 비급여 전액 면책)";
+        diagBadge = "진단비 없음";
+        diagDetails = ["일반 보험상 정신질환 정액 진단비 담보는 없습니다."];
+        surgAvailable = false;
+        surgBadge = "해당 없음 (수술 미시행)";
+        surgDetails = ["정신과적 치료는 수술비 담보에 해당하지 않습니다."];
+        silsonStatus = "⚠️ 급여만 보장 (비급여 면책)";
+        silsonGen = {
+          gen1: "1세대: F코드 전액 면책 (부지급).",
+          gen2: "2세대: 2016년 이전 전액 면책 / 2016년 이후 일부 급여만 보장.",
+          gen3: "3세대: 국민건강보험 급여만 보장 (비급여 전액 면책).",
+          gen4: "4세대: 급여 항목만 보장 (비급여 심리치료/상담료 전액 면책)."
+        };
+        silsonExclusions = [
+          "비급여 심리상담료, 인지치료, 비급여 약제비는 1~4세대 전 실손 면책."
+        ];
+      }
+
+      return {
+        code: upper,
+        name: rawQuery ? `${rawQuery} (KCD: ${upper})` : `KCD 분류코드 [${upper}]`,
+        category: category,
+        subCategory: subCategory,
+        disputeLevel: disputeLevel,
+        diagnosis: {
+          available: diagAvailable,
+          badgeText: diagBadge,
+          details: diagDetails
+        },
+        surgery: {
+          available: surgAvailable,
+          badgeText: surgBadge,
+          details: surgDetails
+        },
+        hospitalDaily: {
+          available: true,
+          badgeText: hospBadge,
+          details: hospDetails
+        },
+        indemnity: {
+          available: true,
+          status: silsonStatus,
+          generations: silsonGen,
+          exclusions: silsonExclusions
+        },
+        claimDocs: [
+          { name: "진단서 또는 입퇴원확인서", desc: `질병/상해코드 ${upper} 기재 필수`, required: true },
+          { name: "진료비 계산서·영수증", desc: "급여/비급여 병원 수납 영수증", required: true },
+          { name: "진료비 세부내역서", desc: "검사료, 투약료, 처치료 상세 명세서", required: true }
+        ]
+      };
+    }
+
+    // 3. 앱 초기화
     function initApp() {
       selectDiseaseByCode("C73");
     }
@@ -887,6 +795,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // 4. 검색 입력 핸들러 (자동완성)
     function handleSearchInput(event) {
       const query = event.target.value.trim().toLowerCase();
       const dropdown = document.getElementById("autocompleteDropdown");
@@ -902,15 +811,15 @@
         return;
       }
 
-      const matches = INSURANCE_DB.filter(item => 
+      const matches = DETAILED_DB.filter(item => 
         item.code.toLowerCase().includes(query) || 
         item.name.toLowerCase().includes(query) ||
-        item.category.toLowerCase().includes(query) ||
-        item.subCategory.toLowerCase().includes(query)
+        item.category.toLowerCase().includes(query)
       );
 
+      let html = "";
       if (matches.length > 0) {
-        dropdown.innerHTML = matches.map(item => `
+        html = matches.map(item => `
           <div onclick="selectDiseaseByCode('${item.code}')" class="p-3.5 hover:bg-sky-50 border-b border-slate-100 cursor-pointer flex items-center justify-between transition">
             <div class="flex items-center gap-3">
               <span class="px-2.5 py-1 rounded bg-slate-900 text-sky-400 font-mono text-xs font-bold">${item.code}</span>
@@ -919,18 +828,17 @@
             <span class="text-xs text-slate-400">${item.category}</span>
           </div>
         `).join("");
-        dropdown.classList.remove("hidden");
-      } else {
-        dropdown.innerHTML = `
-          <div class="p-4 text-center text-sm text-slate-500">
-            일치하는 기본 코드가 없습니다. 
-            <button onclick="triggerAiWithQuery('${query}')" class="text-sky-600 font-bold underline ml-1 hover:text-sky-800">
-              AI 심층 약관 감정 실행하기 <i class="fa-solid fa-arrow-right text-xs"></i>
-            </button>
-          </div>
-        `;
-        dropdown.classList.remove("hidden");
       }
+
+      // DB에 일치 항목이 적거나 없을 때 전체 KCD 판정 버튼 노출
+      html += `
+        <div onclick="executeSearch()" class="p-3.5 bg-slate-50 hover:bg-sky-100 cursor-pointer text-center text-xs sm:text-sm font-bold text-sky-700 transition">
+          <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> "${query.toUpperCase()}" KCD 전체 약관 엔진으로 즉시 분석 실행
+        </div>
+      `;
+
+      dropdown.innerHTML = html;
+      dropdown.classList.remove("hidden");
     }
 
     function quickSelect(code) {
@@ -939,6 +847,7 @@
       selectDiseaseByCode(code);
     }
 
+    // 5. 검색 실행 (DB 조회 -> 없으면 KCD 룰 엔진 즉시 분석)
     function executeSearch() {
       const searchInput = document.getElementById("diseaseSearchInput");
       if (!searchInput) return;
@@ -946,9 +855,13 @@
       const dropdown = document.getElementById("autocompleteDropdown");
       if (dropdown) dropdown.classList.add("hidden");
 
-      if (!query) return;
+      if (!query) {
+        alert("질병코드 또는 진단명을 입력해주세요.");
+        return;
+      }
 
-      const exactMatch = INSURANCE_DB.find(item => 
+      // 1) 상세 DB 검색
+      const exactMatch = DETAILED_DB.find(item => 
         item.code.toLowerCase() === query.toLowerCase() || 
         item.name.toLowerCase().includes(query.toLowerCase())
       );
@@ -956,13 +869,19 @@
       if (exactMatch) {
         selectDiseaseByCode(exactMatch.code);
       } else {
-        triggerAiWithQuery(query);
+        // 2) 미등록 코드는 전체 KCD 룰 엔진으로 즉각 연산
+        const generated = generateKcdRuleBasedItem(query, query);
+        window.currentDisease = generated;
+        currentDisease = generated;
+        renderDiseaseDetails(generated);
       }
     }
 
     function selectDiseaseByCode(code) {
-      const item = INSURANCE_DB.find(d => d.code === code);
-      if (!item) return;
+      let item = DETAILED_DB.find(d => d.code.toLowerCase() === code.toLowerCase());
+      if (!item) {
+        item = generateKcdRuleBasedItem(code, code);
+      }
 
       window.currentDisease = item;
       currentDisease = item;
@@ -980,6 +899,7 @@
       }
     }
 
+    // 6. 결과 렌더링 함수
     function renderDiseaseDetails(item) {
       const emptyState = document.getElementById("emptyState");
       if (emptyState) emptyState.classList.add("hidden");
@@ -1020,7 +940,7 @@
                 <span>진단비 보장</span>
                 <i class="${item.diagnosis.available ? 'fa-solid fa-circle-check text-emerald-600' : 'fa-solid fa-circle-xmark text-slate-400'}"></i>
               </div>
-              <div class="font-extrabold text-sm">${item.diagnosis.available ? '지급 가능' : '해당 없음'}</div>
+              <div class="font-extrabold text-sm">${item.diagnosis.available ? '지급 가능' : '해당 없음/약관확인'}</div>
             </div>
 
             <div class="p-3.5 rounded-xl border ${item.surgery.available ? 'bg-sky-50/70 border-sky-200 text-sky-900' : 'bg-slate-50 border-slate-200 text-slate-500'}">
@@ -1044,7 +964,7 @@
                 <span>실손의료비</span>
                 <i class="${item.indemnity.available ? 'fa-solid fa-shield-halved text-teal-600' : 'fa-solid fa-triangle-exclamation text-rose-600'}"></i>
               </div>
-              <div class="font-extrabold text-sm">${item.indemnity.available ? '정상/조건부 보장' : '면책 주의'}</div>
+              <div class="font-extrabold text-sm">${item.indemnity.status}</div>
             </div>
           </div>
         </div>
@@ -1052,7 +972,7 @@
         <!-- 4 Essential Coverage Breakdown Cards (Grid) -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-          <!-- 1. 진단비 분석 (Diagnosis) -->
+          <!-- 1. 진단비 분석 -->
           <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between mb-4">
@@ -1081,7 +1001,7 @@
             </div>
           </div>
 
-          <!-- 2. 수술비 분석 (Surgery) -->
+          <!-- 2. 수술비 분석 -->
           <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between mb-4">
@@ -1110,7 +1030,7 @@
             </div>
           </div>
 
-          <!-- 3. 입원일당 & 간병인 (Daily Allowance) -->
+          <!-- 3. 입원일당 & 간병인 -->
           <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between mb-4">
@@ -1139,7 +1059,7 @@
             </div>
           </div>
 
-          <!-- 4. 실손의료비 & 세대별 비교 (Indemnity) -->
+          <!-- 4. 실손의료비 & 세대별 비교 -->
           <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between mb-4">
@@ -1179,7 +1099,7 @@
           </div>
         </div>
 
-        <!-- 5. 실손 면책 경보 및 주의사항 (CRITICAL WARNING BANNER) -->
+        <!-- 5. 실손 면책 경보 -->
         <div class="bg-gradient-to-r from-rose-50 via-rose-50/80 to-amber-50 rounded-2xl border border-rose-200 p-6 shadow-sm">
           <div class="flex items-center gap-3 mb-3">
             <div class="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center text-lg shadow-md shadow-rose-600/30">
@@ -1187,7 +1107,7 @@
             </div>
             <div>
               <h3 class="font-black text-rose-950 text-base sm:text-lg">실손의료비 면책 경보 & 보상 심사 핵심 주의사항</h3>
-              <p class="text-xs text-rose-800">현직 보험심사역이 삭감 또는 지급 거절을 검토하는 필수 쟁점 체크리스트</p>
+              <p class="text-xs text-rose-800">현직 보상과에서 삭감 또는 지급 거절을 검토하는 쟁점</p>
             </div>
           </div>
 
@@ -1201,7 +1121,7 @@
           </div>
         </div>
 
-        <!-- 6. 청구 필수 서류 안내 (Claim Document Checklist) -->
+        <!-- 6. 청구 필수 서류 안내 -->
         <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 pb-4 border-b border-slate-100">
             <div class="flex items-center gap-3">
@@ -1241,6 +1161,7 @@
       `;
     }
 
+    // 7. 유틸리티 함수 (클립보드, 모달, 토스트)
     function showToast(message, isSuccess = true) {
       const toast = document.getElementById("toast");
       const msgEl = document.getElementById("toastMsg");
@@ -1248,11 +1169,7 @@
       if (!toast || !msgEl || !iconEl) return;
 
       msgEl.innerText = message;
-      if (isSuccess) {
-        iconEl.className = "fa-solid fa-circle-check text-emerald-400 text-base";
-      } else {
-        iconEl.className = "fa-solid fa-circle-exclamation text-amber-400 text-base";
-      }
+      iconEl.className = isSuccess ? "fa-solid fa-circle-check text-emerald-400 text-base" : "fa-solid fa-circle-exclamation text-amber-400 text-base";
 
       toast.classList.remove("translate-y-20", "opacity-0");
       toast.classList.add("translate-y-0", "opacity-100");
@@ -1273,11 +1190,7 @@
       
       try {
         const successful = document.execCommand('copy');
-        if (successful) {
-          showToast(successMsg, true);
-        } else {
-          showToast("복사에 실패했습니다.", false);
-        }
+        showToast(successful ? successMsg : "복사에 실패했습니다.", successful);
       } catch (err) {
         showToast("복사 권한 오류가 발생했습니다.", false);
       } finally {
@@ -1341,117 +1254,6 @@ ${activeItem.claimDocs.map(d => `• ${d.name} (${d.required ? '필수' : '선�
     function closeDisputeModal() {
       const modal = document.getElementById("disputeModal");
       if (modal) modal.classList.add("hidden");
-    }
-
-    function triggerQuickAiModal() {
-      const queryInput = document.getElementById("aiCustomQuery");
-      const activeItem = window.currentDisease || currentDisease;
-
-      if (queryInput) {
-        if (activeItem && activeItem.code) {
-          queryInput.value = `질병코드: ${activeItem.code} (${activeItem.name})에 대하여 2026년 현행 약관 기준 실손의료비 면책 가능성과 1~5종 수술비, 진단비 인정 기준을 심층 분석해줘.`;
-        } else {
-          queryInput.value = "질병코드 및 치료내용을 입력하시면 2026년 약관 기준 실손면책 및 수술비/진단비 보장을 정밀 분석합니다.";
-        }
-      }
-      const modal = document.getElementById("aiModal");
-      if (modal) modal.classList.remove("hidden");
-    }
-
-    function triggerAiWithQuery(query) {
-      const queryInput = document.getElementById("aiCustomQuery");
-      if (queryInput) {
-        queryInput.value = `질병코드/질환명: "${query}"의 2026년 보험 보장 분석 (진단비, 1~5종 수술비, 입원일당, 실손 급여/비급여 면책 여부, 청구서류)`;
-      }
-      const modal = document.getElementById("aiModal");
-      if (modal) modal.classList.remove("hidden");
-      requestAiAnalysis();
-    }
-
-    function closeAiModal() {
-      const modal = document.getElementById("aiModal");
-      if (modal) modal.classList.add("hidden");
-    }
-
-    async function requestAiAnalysis() {
-      const queryInput = document.getElementById("aiCustomQuery");
-      const userPrompt = queryInput ? queryInput.value.trim() : "";
-      if (!userPrompt) {
-        showToast("질병코드나 질환 내용을 입력해주세요.", false);
-        return;
-      }
-
-      const outputBox = document.getElementById("aiOutputBox");
-      const loadingSpinner = document.getElementById("aiLoadingSpinner");
-      const resultText = document.getElementById("aiResultText");
-      const submitBtn = document.getElementById("aiSubmitBtn");
-
-      if (outputBox) outputBox.classList.remove("hidden");
-      if (loadingSpinner) loadingSpinner.classList.remove("hidden");
-      if (resultText) resultText.innerText = "";
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.classList.add("opacity-50");
-      }
-
-      const systemPrompt = `당신은 2026년 9월까지 대한민국에 판매된 모든 생명보험, 손해보험 상품과 약관(1~4세대 실손의료비, 1~5종 수술비, 신1~8종 수술비, N대 질병수술비, 3대 진단비, 상해/골절 담보, 금감원 분쟁조정 판례)을 완벽하게 꿰뚫고 있는 대한민국 최고의 수석 보험디렉터입니다.
-
-질병코드, 수술명 또는 질환 상황에 대해 다음 4단계로 명확히 분석하세요:
-[1. 해당 질병/상해코드 및 질환 정의]
-[2. 담보별 보장 판정 (진단비, 1~5종 및 신1~8종 수술비, 입원일당/간병인)]
-[3. 실손의료비 판정 & 세대별(1~4세대) 면책 경보]
-[4. 청구 필수 구비서류 및 삭감 방지 팁]`;
-
-      const apiKey = "";
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-
-      const payload = {
-        contents: [{ parts: [{ text: userPrompt }] }],
-        systemInstruction: { parts: [{ text: systemPrompt }] }
-      };
-
-      try {
-        let response = null;
-        let retries = 0;
-        const maxRetries = 3;
-        
-        while (retries < maxRetries) {
-          try {
-            response = await fetch(apiUrl, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-            });
-            if (response.ok) break;
-          } catch (e) {}
-          retries++;
-          await new Promise(r => setTimeout(r, Math.pow(2, retries) * 1000));
-        }
-
-        if (!response || !response.ok) {
-          throw new Error("API Network Response Error");
-        }
-
-        const data = await response.json();
-        const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-        if (loadingSpinner) loadingSpinner.classList.add("hidden");
-        if (resultText) {
-          resultText.innerText = generatedText || "약관 분석 결과를 생성하지 못했습니다. 질병코드를 다시 확인해 주세요.";
-        }
-      } catch (error) {
-        if (loadingSpinner) loadingSpinner.classList.add("hidden");
-        if (resultText) {
-          resultText.innerText = `[약관 감정 시스템 오프라인 모드 가동]
-네트워크 또는 AI 서비스 지연으로 인해 기본 내장 엔진으로 즉시 안내합니다.
-- 상단의 검색창 및 빈출 코드 버튼(C73 갑상선암, I63 뇌경색, I20 협심증, I21 급성심근경색, M51 허리디스크, K63.5 대장용종, H25 백내장, K60 치핵, S52 골절 등)을 클릭하시면 오프라인 상태에서도 100% 즉시 보장 분석 및 실손 면책 기준, 청구 서류가 표시됩니다.`;
-        }
-      } finally {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.classList.remove("opacity-50");
-        }
-      }
     }
   </script>
 </body>
