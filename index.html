@@ -213,17 +213,17 @@
     window.currentDisease = null;
     var currentDisease = null;
 
-    // kcd.json 파일에서 비동기로 불러온 전체 질병코드 목록
+    // kcd 파일에서 비동기로 불러온 전체 질병코드 목록
     let KCD_MASTER_LIST = [];
 
     async function loadKcdDatabase() {
       try {
-        const response = await fetch('kcd.json');
+        const response = await fetch('kcd');
         if (response.ok) {
           KCD_MASTER_LIST = await response.json();
         }
       } catch (e) {
-        console.warn("kcd.json 로드 실패 또는 파일 없음:", e);
+        console.warn("kcd 파일 로드 실패 또는 파일 없음:", e);
       }
     }
 
@@ -959,7 +959,7 @@
         item.name.toLowerCase().includes(lowerQuery)
       );
 
-      // 2. kcd.json 마스터 배열 매칭 (상위 12개 제한)
+      // 2. kcd 마스터 배열 매칭 (상위 12개 제한)
       let kcdMatches = [];
       if (KCD_MASTER_LIST && KCD_MASTER_LIST.length > 0) {
         kcdMatches = KCD_MASTER_LIST.filter(item => 
@@ -1014,7 +1014,7 @@
       selectDiseaseByCode(code);
     }
 
-    // kcd.json 항목 클릭 시 실행
+    // kcd 항목 클릭 시 실행
     function selectKcdMaster(code, name) {
       const searchInput = document.getElementById("diseaseSearchInput");
       if (searchInput) searchInput.value = `${code} - ${name}`;
@@ -1060,7 +1060,7 @@
         return;
       }
 
-      // 2. kcd.json 마스터 매칭
+      // 2. kcd 마스터 매칭
       if (KCD_MASTER_LIST && KCD_MASTER_LIST.length > 0) {
         const kcdMatch = KCD_MASTER_LIST.find(item => 
           item.c.toLowerCase() === clean || 
