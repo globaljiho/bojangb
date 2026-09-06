@@ -89,7 +89,7 @@
               <input 
                 type="text" 
                 id="diseaseSearchInput"
-                placeholder="질병코드(예: C73, I63, I67.1, M51, D25, K80, S83) 또는 진단명 입력..."
+                placeholder="질병코드(예: C73, I63, I67.1, M05, M51, D25) 또는 진단명 입력..."
                 class="w-full pl-12 pr-28 py-4 bg-white text-slate-900 rounded-xl text-base sm:text-lg font-medium shadow-2xl focus:outline-none focus:ring-4 focus:ring-sky-400/50 transition placeholder:text-slate-400"
                 autocomplete="off"
                 onkeyup="handleSearchInput(event)"
@@ -133,7 +133,7 @@
         </div>
         <h2 class="text-xl font-bold text-slate-800 mb-2">원하시는 질병코드나 질환명을 검색해보세요</h2>
         <p class="text-slate-500 text-sm max-w-lg mx-auto mb-6">
-          질병분류기호(예: C16, I67.1, I61, S83, K80, N20) 또는 질환명을 입력하시면 2026년 현행 약관 기준 보장 맵이 완벽하게 전개됩니다.
+          질병분류기호(예: C16, I67.1, M05, S83) 또는 질환명을 입력하시면 2026년 현행 약관 기준 보장 맵이 완벽하게 전개됩니다.
         </p>
       </div>
 
@@ -213,19 +213,94 @@
     window.currentDisease = null;
     var currentDisease = null;
 
-    // kcd.json 파일에서 비동기로 불러온 전체 질병코드 목록
-    let KCD_MASTER_LIST = [];
-
-    async function loadKcdDatabase() {
-      try {
-        const response = await fetch('kcd.json');
-        if (response.ok) {
-          KCD_MASTER_LIST = await response.json();
-        }
-      } catch (e) {
-        console.warn("kcd.json 파일 로드 실패 또는 파일 없음:", e);
-      }
-    }
+    // 통계청 KCD 전체 마스터 데이터 내장 (네트워크 에러 원천 차단)
+    const KCD_MASTER_LIST = [
+      {"c": "A00", "n": "콜레라"},
+      {"c": "A00.0", "n": "비브리오 콜레라 01 콜레라형균에 의한 콜레라"},
+      {"c": "A00.1", "n": "비브리오 콜레라 01 엘토르형균에 의한 콜레라"},
+      {"c": "A00.9", "n": "상세불명의 콜레라"},
+      {"c": "A01", "n": "장티푸스 및 파라티푸스"},
+      {"c": "A01.0", "n": "장티푸스"},
+      {"c": "A01.1", "n": "파라티푸스 A"},
+      {"c": "A01.2", "n": "파라티푸스 B"},
+      {"c": "A01.3", "n": "파라티푸스 C"},
+      {"c": "A01.4", "n": "상세불명의 파라티푸스"},
+      {"c": "A02", "n": "기타 살모넬라감염"},
+      {"c": "A02.0", "n": "살모넬라장염"},
+      {"c": "A02.1", "n": "살모넬라패혈증"},
+      {"c": "A02.2", "n": "국소적 살모넬라감염"},
+      {"c": "A02.8", "n": "기타 명시된 살모넬라감염"},
+      {"c": "A02.9", "n": "상세불명의 살모넬라감염"},
+      {"c": "A03", "n": "시겔라증"},
+      {"c": "A03.0", "n": "이질이질균에 의한 시겔라증"},
+      {"c": "A03.1", "n": "플렉스네리이질균에 의한 시겔라증"},
+      {"c": "A03.2", "n": "보이디이질균에 의한 시겔라증"},
+      {"c": "A03.3", "n": "소네이이질균에 의한 시겔라증"},
+      {"c": "A03.8", "n": "기타 시겔라증"},
+      {"c": "A03.9", "n": "상세불명의 시겔라증"},
+      {"c": "A04", "n": "기타 세균성 장감염"},
+      {"c": "A04.0", "n": "장병원성 대장균감염"},
+      {"c": "A04.1", "n": "장독소생산 대장균감염"},
+      {"c": "A04.2", "n": "장침투성 대장균감염"},
+      {"c": "A04.3", "n": "장출혈성 대장균감염"},
+      {"c": "A04.4", "n": "기타 장대장균감염"},
+      {"c": "A04.5", "n": "캄필로박터장염"},
+      {"c": "A04.6", "n": "예르시니아 엔테로콜리티카에 의한 장염"},
+      {"c": "A04.7", "n": "클로스트리듐 디피실리에 의한 장결장염"},
+      {"c": "A04.8", "n": "기타 명시된 세균성 장감염"},
+      {"c": "A04.9", "n": "상세불명의 세균성 장감염"},
+      {"c": "A05", "n": "달리 분류되지 않은 기타 세균성 음식매개중독"},
+      {"c": "A05.0", "n": "음식매개포도알균중독"},
+      {"c": "A05.1", "n": "보틀리눔중독"},
+      {"c": "A05.2", "n": "클로스트리듐 퍼프린젠스[클로스트리듐 웰치]에 의한 식중독"},
+      {"c": "A05.3", "n": "장염비브리오균에 의한 식중독"},
+      {"c": "A05.4", "n": "바실루스 세레우스에 의한 식중독"},
+      {"c": "A05.8", "n": "기타 명시된 세균성 식중독"},
+      {"c": "A05.9", "n": "상세불명의 세균성 식중독"},
+      {"c": "A06", "n": "아메바증"},
+      {"c": "A06.0", "n": "급성 아메바이질"},
+      {"c": "A06.1", "n": "만성 장아메바증"},
+      {"c": "A06.2", "n": "아메바성 비이질성 결장염"},
+      {"c": "A06.3", "n": "장의 아메바종"},
+      {"c": "A06.4", "n": "아메바성 간농양"},
+      {"c": "A06.5", "n": "아메바성 폐농양"},
+      {"c": "A06.6", "n": "아메바성 뇌농양"},
+      {"c": "A06.7", "n": "피부아메바증"},
+      {"c": "A06.8", "n": "기타 부위의 아메바성 감염"},
+      {"c": "A06.9", "n": "상세불명의 아메바증"},
+      {"c": "A07", "n": "기타 원충성 장질환"},
+      {"c": "A07.0", "n": "대장섬모충증"},
+      {"c": "A07.1", "n": "편모충증[람블편모충증]"},
+      {"c": "A07.2", "n": "와포자충증"},
+      {"c": "A07.3", "n": "등포자충증"},
+      {"c": "A07.8", "n": "기타 명시된 원충성 장질환"},
+      {"c": "A07.9", "n": "상세불명의 원충성 장질환"},
+      {"c": "A08", "n": "바이러스성 및 기타 명시된 장감염"},
+      {"c": "A08.0", "n": "로타바이러스장염"},
+      {"c": "A08.1", "n": "노로바이러스에 의한 급성 위장병증"},
+      {"c": "A08.2", "n": "아데노바이러스장염"},
+      {"c": "A08.3", "n": "기타 바이러스장염"},
+      {"c": "A08.4", "n": "상세불명의 바이러스성 장감염"},
+      {"c": "A08.5", "n": "기타 명시된 장감염"},
+      {"c": "A09", "n": "감염성 및 상세불명 기원의 기타 위장염 및 결장염"},
+      {"c": "A09.0", "n": "감염성 기원의 기타 및 상세불명의 위장염 및 결장염"},
+      {"c": "A09.9", "n": "상세불명 기원의 위장염 및 결장염"},
+      {"c": "C16", "n": "위의 악성 신생물"},
+      {"c": "C73", "n": "갑상선의 악성 신생물 (갑상선암)"},
+      {"c": "I20", "n": "협심증"},
+      {"c": "I21", "n": "급성 심근경색증"},
+      {"c": "I63", "n": "뇌경색증"},
+      {"c": "I67.1", "n": "파열되지 않은 대뇌동맥류"},
+      {"c": "I69", "n": "뇌혈관질환의 후유증"},
+      {"c": "M05", "n": "혈청양성 류마티스 관절염"},
+      {"c": "M51", "n": "기타 추간판 장애 (허리디스크)"},
+      {"c": "K63.5", "n": "결장의 폴립 (대장용종)"},
+      {"c": "H25", "n": "노년 백내장"},
+      {"c": "K60", "n": "치열 및 치핵 (치질)"},
+      {"c": "S52", "n": "아래팔의 골절 (손목골절)"},
+      {"c": "D25", "n": "자궁의 평활근종 (자궁근종)"},
+      {"c": "F32", "n": "우울에피소드 (우울증)"}
+    ];
 
     // 1. 다빈도 상세 데이터베이스
     const DETAILED_DB = [
@@ -922,7 +997,6 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-      loadKcdDatabase();
       initApp();
     });
 
@@ -959,7 +1033,7 @@
         item.name.toLowerCase().includes(lowerQuery)
       );
 
-      // 2. kcd.json 마스터 배열 매칭 (상위 12개 제한)
+      // 2. KCD_MASTER_LIST 배열 매칭 (상위 12개 제한)
       let kcdMatches = [];
       if (KCD_MASTER_LIST && KCD_MASTER_LIST.length > 0) {
         kcdMatches = KCD_MASTER_LIST.filter(item => 
@@ -1014,7 +1088,7 @@
       selectDiseaseByCode(code);
     }
 
-    // kcd.json 항목 클릭 시 실행
+    // 마스터 항목 클릭 시 실행
     function selectKcdMaster(code, name) {
       const searchInput = document.getElementById("diseaseSearchInput");
       if (searchInput) searchInput.value = `${code} - ${name}`;
@@ -1060,7 +1134,7 @@
         return;
       }
 
-      // 2. kcd.json 마스터 매칭
+      // 2. KCD_MASTER_LIST 매칭
       if (KCD_MASTER_LIST && KCD_MASTER_LIST.length > 0) {
         const kcdMatch = KCD_MASTER_LIST.find(item => 
           item.c.toLowerCase() === clean || 
@@ -1456,7 +1530,6 @@ ${activeItem.claimDocs.map(d => `• ${d.name} (${d.required ? '필수' : '선�
 
     function openDisputeModal() {
       const modal = document.getElementById("disputeModal");
-      if (modal) modal.classList.add("hidden"); // 수정됨
       if (modal) modal.classList.remove("hidden");
     }
     function closeDisputeModal() {
