@@ -89,7 +89,7 @@
               <input 
                 type="text" 
                 id="diseaseSearchInput"
-                placeholder="질병코드(예: C73, I63, M51, D25, K80, S83) 또는 진단명 입력..."
+                placeholder="질병코드(예: C73, I63, I67.1, M51, D25, K80, S83) 또는 진단명 입력..."
                 class="w-full pl-12 pr-28 py-4 bg-white text-slate-900 rounded-xl text-base sm:text-lg font-medium shadow-2xl focus:outline-none focus:ring-4 focus:ring-sky-400/50 transition placeholder:text-slate-400"
                 autocomplete="off"
                 onkeyup="handleSearchInput(event)"
@@ -111,6 +111,7 @@
             <span class="text-slate-400 font-medium mr-1"><i class="fa-solid fa-bolt text-amber-400 mr-1"></i>빈출 코드 바로가기:</span>
             <button onclick="quickSelect('C73')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">C73 갑상선암</button>
             <button onclick="quickSelect('I63')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">I63 뇌경색</button>
+            <button onclick="quickSelect('I67.1')" class="px-2.5 py-1 rounded-md bg-sky-900/70 hover:bg-sky-800 text-sky-200 border border-sky-600/60 transition">I67.1 뇌동맥류</button>
             <button onclick="quickSelect('I20')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">I20 협심증</button>
             <button onclick="quickSelect('I21')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">I21 심근경색</button>
             <button onclick="quickSelect('M51')" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">M51 디스크</button>
@@ -132,7 +133,7 @@
         </div>
         <h2 class="text-xl font-bold text-slate-800 mb-2">원하시는 질병코드나 질환명을 검색해보세요</h2>
         <p class="text-slate-500 text-sm max-w-lg mx-auto mb-6">
-          질병분류기호(예: C16, I61, S83, K80, N20) 또는 질환명을 입력하시면 2026년 현행 약관 기준 보장 맵이 완벽하게 전개됩니다.
+          질병분류기호(예: C16, I67.1, I61, S83, K80, N20) 또는 질환명을 입력하시면 2026년 현행 약관 기준 보장 맵이 완벽하게 전개됩니다.
         </p>
       </div>
 
@@ -313,6 +314,57 @@
         ]
       },
       {
+        code: "I67.1",
+        name: "파열되지 않은 대뇌동맥류 (Unruptured cerebral aneurysm)",
+        category: "뇌혈관질환",
+        subCategory: "뇌혈관 꽈리 / 비파열성",
+        disputeLevel: "높음 (뇌혈관 vs 뇌졸중/뇌출혈 담보 범위 분쟁)",
+        diagnosis: {
+          available: true,
+          badgeText: "뇌혈관질환 진단비 100% (뇌졸중·뇌출혈 X)",
+          details: [
+            "뇌혈관질환 진단비: 약관상 I67 코드 포함으로 100% 전액 지급.",
+            "⚠️ 뇌졸중(I60~I63) 또는 뇌출혈(I60~I62) 진단비만 가입된 경우: 파열 전 상태이므로 전액 면책(0원).",
+            "동맥류 크기(통상 2~3mm 이상) 및 위치에 따른 예방적 시술 적정성 분쟁 주의."
+          ]
+        },
+        surgery: {
+          available: true,
+          badgeText: "뇌혈관수술비 + 1~5종(3종/5종)",
+          details: [
+            "뇌동맥류 코일색전술 (경피적 카테터 혈관내 시술): [3종 수술비] 및 뇌혈관질환 수술비 지급.",
+            "개두술을 통한 클립결찰술 (관혈 수술): [5종 수술비] 최고액 및 뇌혈관질환 수술비 지급.",
+            "스텐트 보조 코일색전술 시행 시 비급여 재료대 실손 심사 강화."
+          ]
+        },
+        hospitalDaily: {
+          available: true,
+          badgeText: "질병입원 + 중환자실일당 (시술/수술 시)",
+          details: [
+            "코일색전술 후 집중치료실(중환자실) 1~2일 입원 시 중환자실 입원일당 동시 지급."
+          ]
+        },
+        indemnity: {
+          available: true,
+          status: "정상 보장 (검진 발견 시 유의)",
+          generations: {
+            gen1: "1세대: 입원의료비 100% 보장.",
+            gen2: "2세대: 급여/비급여 80~90% 보장.",
+            gen3: "3세대: 급여 90%, 비급여 80% 보장.",
+            gen4: "4세대: 급여 80%, 비급여 70% 보장 (급여화 항목 확대 적용)."
+          },
+          exclusions: [
+            "건강검진(비급여 뇌 MRA) 자체 비용은 면책. 검진 후 이상 소견으로 인한 정밀 뇌혈관조영술(TFCA) 및 입원 시술은 전액 실손 보장."
+          ]
+        },
+        claimDocs: [
+          { name: "진단서", desc: "I67.1 질병코드 명시", required: true },
+          { name: "뇌 MRA 또는 Brain CT 결과지", desc: "동맥류 크기 및 위치(ICA, MCA, A-com 등) 확인", required: true },
+          { name: "수술확인서 (시술 시)", desc: "코일색전술 또는 결찰술 명시", required: true },
+          { name: "진료비 영수증 & 세부내역서", desc: "치료비 및 재료대 명세서", required: true }
+        ]
+      },
+      {
         code: "I20",
         name: "협심증 (Angina pectoris)",
         category: "심혈관질환",
@@ -355,6 +407,53 @@
           { name: "관상동맥 조영술(CAG) 결과지", desc: "혈관 협착률(%) 필수", required: true },
           { name: "심전도 & 심근효소 검사지", desc: "정밀 검사 결과", required: true },
           { name: "진료비 영수증 & 세부내역서", desc: "치료비 내역서", required: true }
+        ]
+      },
+      {
+        code: "I21",
+        name: "급성 심근경색증 (Acute myocardial infarction)",
+        category: "심혈관질환",
+        subCategory: "허혈성 심장질환",
+        disputeLevel: "중간 (심근효소 및 심전도 변화 입증 필수)",
+        diagnosis: {
+          available: true,
+          badgeText: "급성심근경색 + 허혈성 + 심혈관 특정 100% 지급",
+          details: [
+            "급성심근경색 진단비: 100% 전액 지급 (I21, I22, I23).",
+            "허혈성심장질환 진단비: 100% 전액 지급 (중복 가입 시 합산 수령).",
+            "심혈관특정치료비: 스텐트 시술 또는 중환자실 치료 시 추가 보장."
+          ]
+        },
+        surgery: {
+          available: true,
+          badgeText: "허혈성수술비 + 1~5종(3종/5종)",
+          details: [
+            "경피적 관상동맥 스텐트삽입술(PCI): 1~5종 중 [3종 수술비] 지급.",
+            "관상동맥우회술(CABG - 개흉술): 1~5종 중 [5종 수술비] 최고액 지급."
+          ]
+        },
+        hospitalDaily: {
+          available: true,
+          badgeText: "질병입원 + 심장 특정입원 + 중환자실일당",
+          details: ["중환자실 입원 시 일반입원일당 + 중환자실일당 중복 지급."]
+        },
+        indemnity: {
+          available: true,
+          status: "정상 보장 (급여 5% 산정특례 적용)",
+          generations: {
+            gen1: "1세대: 입원 본인부담금 0원.",
+            gen2: "2세대: 80~90% 보장.",
+            gen3: "3세대: 급여 90%, 비급여 80%.",
+            gen4: "4세대: 급여 80%, 비급여 70%."
+          },
+          exclusions: ["발병 전 기왕증 고지의무 위반 여부 조사 가능성 있으므로 청약일 이전 진료이력 확인 요망."]
+        },
+        claimDocs: [
+          { name: "진단서", desc: "질병분류기호 I21 명기", required: true },
+          { name: "심전도(EKG) 검사 결과지", desc: "ST절 상승(STEMI) 또는 비상승(NSTEMI) 파형 기록", required: true },
+          { name: "심근효소 검사 결과지", desc: "Troponin-I/T, CK-MB 수치 상승 확인 필수", required: true },
+          { name: "관상동맥 조영술(CAG) 판독지", desc: "혈관 폐색 및 스텐트 삽입 기록", required: true },
+          { name: "진료비 영수증 및 세부내역서", desc: "입원치료비 청구용", required: true }
         ]
       },
       {
@@ -612,9 +711,30 @@
 
     // 2. KCD 22개 대분류 자동 판정 룰 엔진 (DB 미등록 코드 처리)
     function generateKcdRuleBasedItem(rawCode, rawQuery) {
-      const upper = rawCode.toUpperCase().trim();
-      const prefix = upper.charAt(0);
-      const numPart = parseFloat(upper.substring(1)) || 0;
+      const clean = rawCode.trim();
+      const upper = clean.toUpperCase();
+      let prefix = upper.charAt(0);
+      let numPart = parseFloat(upper.substring(1)) || 0;
+
+      // 한글 진단명 입력 시 코드 대역 역추정 매핑
+      if (!/^[A-Z]/.test(prefix)) {
+        if (clean.includes("동맥류") || clean.includes("뇌혈관") || clean.includes("뇌경색") || clean.includes("뇌출혈")) {
+          prefix = 'I';
+          numPart = 67;
+        } else if (clean.includes("협심증") || clean.includes("심근경색") || clean.includes("심장")) {
+          prefix = 'I';
+          numPart = 20;
+        } else if (clean.includes("암") || clean.includes("악성")) {
+          prefix = 'C';
+        } else if (clean.includes("용종") || clean.includes("폴립") || clean.includes("선종") || clean.includes("근종")) {
+          prefix = 'D';
+          numPart = 25;
+        } else if (clean.includes("골절") || clean.includes("탈구") || clean.includes("파열") || clean.includes("염좌")) {
+          prefix = 'S';
+        } else if (clean.includes("우울") || clean.includes("불안") || clean.includes("공황") || clean.includes("조울")) {
+          prefix = 'F';
+        }
+      }
 
       let category = "일반 질환";
       let subCategory = "기타 질환";
@@ -696,14 +816,22 @@
           diagBadge = "뇌출혈 + 뇌졸중 + 뇌혈관 100% 지급";
           diagDetails = ["출혈성 뇌졸중으로 3대 뇌혈관 담보 모두 100% 지급."];
           surgBadge = "뇌혈관수술비 + 1~5종(5종)";
+          surgDetails = ["개두 관혈수술 시 5종 수술비 및 뇌혈관 수술비 지급."];
         } else if (numPart >= 60 && numPart <= 69) {
           diagAvailable = true;
-          diagBadge = "뇌혈관질환 진단비 (뇌출혈 담보는 면책)";
-          diagDetails = ["뇌혈관질환 전용 진단비에서 지급. 뇌출혈 전용 담보는 부지급."];
+          diagBadge = "뇌혈관질환 진단비 100% (뇌출혈 담보 면책)";
+          diagDetails = ["뇌혈관질환 전용 진단비에서 100% 지급. 뇌출혈 전용 담보는 부지급."];
+          surgBadge = "뇌혈관수술비 + 1~5종(3종/5종)";
+          surgDetails = [
+            "뇌혈관 관혈수술(개두술): 5종 수술비 해당.",
+            "경피적 카테터/코일색전술 등 혈관내 시술: 3종 수술비 해당."
+          ];
         } else if (numPart >= 20 && numPart <= 25) {
           diagAvailable = true;
           diagBadge = "허혈성 심장질환 진단비 매칭";
           diagDetails = ["허혈성 심장질환 진단비 지급 (급성심근경색 여부는 별도 분별)."];
+          surgBadge = "허혈성수술비 + 1~5종(3종/5종)";
+          surgDetails = ["스텐트 시술 3종, 관상동맥우회술 5종 지급."];
         }
       } else if (prefix === 'S' || prefix === 'T') {
         category = "손상, 중독 및 외인에 의한 결과 (상해/외상)";
@@ -830,7 +958,6 @@
         `).join("");
       }
 
-      // DB에 일치 항목이 적거나 없을 때 전체 KCD 판정 버튼 노출
       html += `
         <div onclick="executeSearch()" class="p-3.5 bg-slate-50 hover:bg-sky-100 cursor-pointer text-center text-xs sm:text-sm font-bold text-sky-700 transition">
           <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> "${query.toUpperCase()}" KCD 전체 약관 엔진으로 즉시 분석 실행
@@ -874,6 +1001,11 @@
         window.currentDisease = generated;
         currentDisease = generated;
         renderDiseaseDetails(generated);
+
+        const detailView = document.getElementById("diseaseDetailView");
+        if (detailView) {
+          detailView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
     }
 
